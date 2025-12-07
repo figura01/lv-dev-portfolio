@@ -46,7 +46,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
 
   const handleSignOut = async () => {
     await signOut({ redirect: false });
-    router.push("/auth/signin");
+    router.push("/");
   };
 
   return (

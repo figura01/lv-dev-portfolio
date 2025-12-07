@@ -4,8 +4,7 @@
 import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import { revalidatePath } from "next/cache";
-import { ProjectFormData } from "@/types";
-import { updateProjectSchema } from "@/lib/validators";
+import { insertProjectSchema, updateProjectSchema } from "@/lib/validators";
 import { formatError } from "../utils";
 import { z } from "zod";
 
@@ -52,7 +51,7 @@ export async function getProjectSlugs() {
   }));
 }
 
-export async function createProject(data: ProjectFormData) {
+export async function createProject(data: z.infer<typeof insertProjectSchema>) {
   try {
     const project = await prisma.project.create({
       data: {

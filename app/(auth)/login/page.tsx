@@ -32,6 +32,7 @@ export default function LoginPage() {
         router.push(callbackUrl);
       }
     } catch (error) {
+      console.error(error);
       setError("Une erreur est survenue. Veuillez réessayer.");
     }
   };
@@ -41,7 +42,7 @@ export default function LoginPage() {
       <div className="max-w-md w-full space-y-8">
         <div>
           <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            Connexion à l'administration
+            Connexion à l&apos;administration
           </h2>
         </div>
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>

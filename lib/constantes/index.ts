@@ -2,7 +2,7 @@ export const technologiyDefaultValue = {
   name: "",
 };
 
-export const projectDefaultValue = {
+export const projectDefaultValues = {
   title: "",
   slug: "",
   description: "",

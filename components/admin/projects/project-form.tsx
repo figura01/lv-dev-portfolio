@@ -2,7 +2,7 @@
 "use client";
 
 import { useState } from "react";
-import { ControllerRenderProps, useForm } from "react-hook-form";
+import { ControllerRenderProps, useForm, SubmitHandler } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
@@ -26,9 +26,9 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 
-import { projectSchema, updateProjectSchema } from "@/lib/validators";
+import { updateProjectSchema, insertProjectSchema } from "@/lib/validators";
 import { Loader2, Plus, X } from "lucide-react";
-import { projectDefaultValue } from "@/lib/constantes";
+import { projectDefaultValues } from "@/lib/constantes";
 import { Card, CardContent } from "@/components/ui/card";
 
 export const ProjectForm = ({
@@ -40,33 +40,31 @@ export const ProjectForm = ({
   type: "create" | "update";
   project?: Project & { technologies: Technology[] };
   projectId?: string;
-  technologies?: Technology[];
+  technologies: Technology[];
 }) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
-  const isUpdate = type === "update";
-  type FormValues = z.infer<typeof projectSchema>;
-
-  const form = useForm<FormValues>({
-    resolver: zodResolver(isUpdate ? updateProjectSchema : projectSchema),
-    defaultValues: (project && isUpdate
-      ? {
-          ...projectDefaultValue, // Start with defaults
-          ...project, // Override with project data
-          technologies: project.technologies?.map((t) => t.id) || [],
-        }
-      : projectDefaultValue) as FormValues,
+  const form = useForm<z.infer<typeof insertProjectSchema>>({
+    resolver: zodResolver(
+      type === "update" ? updateProjectSchema : insertProjectSchema
+    ),
+    defaultValues:
+      project && type === "update"
+        ? {
+            ...project,
+            technologies: project.technologies.map((t) => t.id),
+          }
+        : projectDefaultValues,
   });
 
-  const onSubmit = async (values: FormValues) => {
+  const onSubmit: SubmitHandler<z.infer<typeof insertProjectSchema>> = async (
+    values
+  ) => {
     setIsLoading(true);
-    if (!isUpdate) {
+    if (type !== "update") {
       const result = await createProject({
         ...values,
-        technologies: values.technologies || [],
-        features: values.features || [],
-        link_url: values.link_url || "",
       });
       if (result.success) {
         toast.success(result.message);
@@ -130,7 +128,7 @@ export const ProjectForm = ({
                   <Input placeholder="titre-du-projet" {...field} />
                 </FormControl>
                 <FormDescription>
-                  L'URL conviviale pour le projet
+                  L&apos;URL conviviale pour le projet
                 </FormDescription>
                 <FormMessage />
               </FormItem>
@@ -429,7 +427,7 @@ export const ProjectForm = ({
           </Button>
           <Button type="submit" disabled={isLoading}>
             {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-            {isUpdate ? "Mettre à jour" : "Créer"}
+            {type === "update" ? "Mettre à jour" : "Créer"}
           </Button>
         </div>
       </form>
