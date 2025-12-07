@@ -36,6 +36,7 @@ export async function getAllProjects() {
       image: true,
       createdAt: true,
       technologies: true,
+      description: true,
     },
   });
 }
