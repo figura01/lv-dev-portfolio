@@ -3,7 +3,7 @@
 import { signIn } from "next-auth/react";
 import { FcGoogle } from "react-icons/fc";
 
-export function SignIn() {
+export default function SignIn() {
   return (
     <div className="mt-8 space-y-6">
       <div>
