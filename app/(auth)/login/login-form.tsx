@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { signIn } from "next-auth/react";
-import { useSearchParams } from "next/navigation";
+
 import Link from "next/link";
 import { useForm, FormProvider } from "react-hook-form";
 import { Card, CardContent } from "@/components/ui/card";
@@ -23,8 +23,7 @@ interface LoginFormProps {
   redirect?: string;
 }
 
-const LoginForm = ({ redirect }: LoginFormProps) => {
-  const searchParams = useSearchParams();
+const LoginForm = ({ searchParams, redirect }: LoginFormProps) => {
   const [error, setError] = useState<string | null>(null);
   const loginSchema = z.object({
     email: z.string().email({
