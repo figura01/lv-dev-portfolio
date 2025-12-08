@@ -1,12 +1,20 @@
 // lib/auth.ts
 import NextAuth from "next-auth";
 import { PrismaAdapter } from "@auth/prisma-adapter";
+import { JWT } from "next-auth/jwt";
 import { PrismaClient } from "@prisma/client";
-import type { DefaultSession, DefaultUser } from "next-auth";
+import type { DefaultUser, Session } from "next-auth";
 import type { Adapter } from "@auth/core/adapters";
 import Credentials from "next-auth/providers/credentials";
 import { compare } from "bcryptjs";
 import { cache } from "react";
+
+interface User {
+  id: string;
+  name?: string | null;
+  email?: string | null;
+  role: string;
+}
 
 // Prisma configuration
 const globalForPrisma = global as unknown as { prisma: PrismaClient };
@@ -98,14 +106,14 @@ export const authOptions = {
     }),
   ],
   callbacks: {
-    async jwt({ token, user }) {
+    async jwt({ token, user }: { token: JWT; user?: User }) {
       if (user) {
         token.id = user.id;
-        token.role = (user as any).role;
+        token.role = user.role;
       }
       return token;
     },
-    async session({ session, token }) {
+    async session({ session, token }: { session: Session; token: JWT }) {
       if (session.user) {
         session.user.id = token.id as string;
         session.user.role = token.role as string;
