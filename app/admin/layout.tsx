@@ -44,11 +44,6 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
     return null;
   }
 
-  const handleSignOut = async () => {
-    await signOut({ redirect: false });
-    router.push("/");
-  };
-
   return (
     <div className="flex h-screen bg-gray-50">
       <Sidebar />
@@ -63,7 +58,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                 {session.user?.name || session.user?.email}
               </span>
               <button
-                onClick={handleSignOut}
+                onClick={() => signOut({ callbackUrl: "/login" })}
                 className="text-sm text-red-600 hover:text-red-800"
               >
                 Déconnexion

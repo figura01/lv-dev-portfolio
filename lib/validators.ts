@@ -39,3 +39,21 @@ export const insertTechnologySchema = technologySchema;
 export const updateTechnologySchema = technologySchema.extend({
   id: z.string(),
 });
+
+/** USER */
+// Shema for signing user in
+export const signInFormSchema = z.object({
+  email: z.string().email({
+    message: "Invalid email address.",
+  }),
+  password: z.string().min(6, "Password must be at least 6 characters"),
+});
+
+export const loginSchema = z.object({
+  email: z.string().email({
+    message: "Veuillez entrer une adresse email valide",
+  }),
+  password: z.string().min(8, {
+    message: "Le mot de passe doit contenir au moins 8 caractères",
+  }),
+});
