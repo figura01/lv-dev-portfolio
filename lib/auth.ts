@@ -117,5 +117,12 @@ export const authOptions = {
   debug: process.env.NODE_ENV === "development",
 };
 
+// Création du gestionnaire NextAuth
 const handler = NextAuth(authOptions);
-export { handler as GET, handler as POST };
+
+// Export des gestionnaires HTTP
+export const { auth } = handler;
+export const { GET, POST } = handler;
+
+// Export des types
+export type { Session } from "next-auth";

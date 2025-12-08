@@ -27,5 +27,5 @@ export async function proxy(request: NextRequest) {
 
 export const config = {
   // N'appliquer le middleware que sur les routes qui commencent par /admin
-  matcher: ["/admin/:path*"],
+  matcher: ["/admin/:path*", "/api/uploadthing/:path*"],
 };
