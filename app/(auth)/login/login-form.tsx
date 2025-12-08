@@ -48,7 +48,7 @@ const LoginForm = ({ searchParams, redirect }: LoginFormProps) => {
         email: data.email,
         password: data.password,
         redirect: true,
-        callbackUrl: redirect || searchParams.get("redirect") || "/admin",
+        callbackUrl: redirect || searchParams?.get("redirect") || "/admin",
       });
       if (res?.error) {
         toast.error(res.error);
