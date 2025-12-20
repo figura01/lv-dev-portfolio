@@ -9,21 +9,15 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-// import { Pencil, Plus, Trash2 } from "lucide-react";
 import Link from "next/link";
 import DeleteDialog from "@/components/admin/delete-dialog";
 import { getAllProjects, deleteProject } from "@/lib/actions/project.actions";
 import { Plus, Pencil } from "lucide-react";
-import {
-  getAllTechnology,
-  deleteTechnology,
-} from "@/lib/actions/technology.actions";
 import { Badge } from "@/components/ui/badge";
 
 export default async function AdminProjectsPage() {
   const { data: projects } = await getAllProjects();
   console.log("projects: ", projects);
-  const { data: technologies } = await getAllTechnology();
   return (
     <div className="container mx-auto py-8">
       <div className="flex items-center justify-between mb-8">
@@ -38,7 +32,7 @@ export default async function AdminProjectsPage() {
 
       <Card>
         <CardHeader>
-          <CardTitle>Liste des technologies</CardTitle>
+          <CardTitle>Liste des projets</CardTitle>
         </CardHeader>
         <CardContent>
           <Table>
