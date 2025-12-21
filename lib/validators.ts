@@ -45,8 +45,8 @@ export const updateProjectSchema = createProjectSchema.extend({
 export const createExperienceSchema = z.object({
   title: z.string().min(3, ""),
   company: z.string().min(3, ""),
-  startDate: z.string(),
-  endDate: z.string(),
+  startDate: z.date(),
+  endDate: z.date(),
   description: z.string().min(3, ""),
   role: z.string().min(3, ""),
 });
