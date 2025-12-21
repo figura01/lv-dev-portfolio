@@ -18,3 +18,12 @@ export const projectFormDefaultValues = {
   technologies: [],
   lin_url: "",
 };
+
+export const experienceFormDefaultValues = {
+  title: "",
+  company: "",
+  startDate: "",
+  endDate: "",
+  description: "",
+  role: "",
+};

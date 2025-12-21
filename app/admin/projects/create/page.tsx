@@ -1,4 +1,4 @@
-import ProjectForm from "../../../../components/admin/project/project-form";
+import ProjectForm from "@/components/admin/project/project-form";
 import { getAllTechnology } from "@/lib/actions/technology.actions";
 
 const AdminCreateProjctPage = async () => {

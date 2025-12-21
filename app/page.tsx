@@ -1,8 +1,12 @@
+"use client";
 import Link from "next/link";
 import { ArrowRight, Code, Cpu, Smartphone } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useSession } from "@/lib/auth-client";
 
 export default function HomePage() {
+  const session = useSession();
+  console.log(session);
   const services = [
     {
       icon: <Code className="h-6 w-6" />,

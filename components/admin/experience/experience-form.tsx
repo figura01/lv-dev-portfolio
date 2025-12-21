@@ -11,24 +11,76 @@ import {
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { CustomCalendar } from "./custom-calendar";
 import { Input } from "@/components/ui/input";
+import { z } from "zod";
+import {
+  createExperience,
+  updateExperience,
+} from "@/lib/actions/experience.actions";
+import { toast } from "sonner";
+import { redirect, useRouter } from "next/navigation";
+import { experienceFormDefaultValues } from "@/lib/constantes";
 
-const ExperienceForm = ({ type }: { type: "Create" | "Update" }) => {
-  const form = useForm({
+const ExperienceForm = ({
+  type,
+  experienceId,
+  experience,
+}: {
+  type: "Create" | "Update";
+  experienceId?: string;
+  experience?: z.infer<typeof createExperienceSchema>;
+}) => {
+  const router = useRouter();
+  const isUpdate = type === "Update";
+
+  const form = useForm<z.infer<typeof createExperienceSchema>>({
     resolver: zodResolver(
-      type === "Create" ? createExperienceSchema : updateExperienceSchema
+      isUpdate ? updateExperienceSchema : createExperienceSchema
     ),
-    defaultValues: {
-      title: "",
-      company: "",
-      startDate: "",
-      endDate: "",
-      description: "",
-      role: "",
-    },
+    defaultValues:
+      experience && type
+        ? {
+            ...experience,
+          }
+        : experienceFormDefaultValues,
   });
 
-  const onSubmit = (data: any) => {
+  type FormValues = z.infer<typeof createExperienceSchema>;
+
+  const onSubmit = async (data: FormValues) => {
     console.log(data);
+
+    try {
+      if (!isUpdate) {
+        const createdExperience = await createExperience(data);
+
+        if (!createExperience) {
+          toast.error("Une erreur est survenue");
+        }
+
+        if (createdExperience.success) {
+          toast.success("Une experience a bien été créer!");
+          router.push("/admin/experiences");
+        }
+      } else {
+        if (!experienceId) {
+          redirect("/admin/experiences");
+        }
+        const updatedExperience = await updateExperience(
+          { ...data, id: experienceId.toString() },
+          experienceId.toString()
+        );
+
+        if (updatedExperience.success) {
+          toast.success("Une experience a bien été mettre à jour!");
+          router.push("/admin/experiences");
+        } else {
+          toast.error(updatedExperience.message);
+        }
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error(`Une erreur est survenue, ${error}`);
+    }
   };
 
   return (

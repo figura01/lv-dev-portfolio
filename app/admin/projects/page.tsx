@@ -53,9 +53,11 @@ export default async function AdminProjectsPage() {
                       {project.title}
                     </TableCell>
 
-                    <TableCell className="font-medium flex gap-2">
+                    <TableCell className="font-medium">
                       {project.technologies.map((tech) => (
-                        <Badge key={tech.id}>{tech.name}</Badge>
+                        <Badge className="mr-2" key={tech.id}>
+                          {tech.name}
+                        </Badge>
                       ))}
                     </TableCell>
 

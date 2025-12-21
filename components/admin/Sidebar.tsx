@@ -8,6 +8,7 @@ const navigation = [
   { name: "Tableau de bord", href: "/admin", icon: "📊" },
   { name: "Projets", href: "/admin/projects", icon: "💼" },
   { name: "Technologies", href: "/admin/technologies", icon: "🛠️" },
+  { name: "Expériences", href: "/admin/experiences", icon: "🎓" },
   { name: "Compétences", href: "/admin/competences", icon: "🎯" },
 ];
 

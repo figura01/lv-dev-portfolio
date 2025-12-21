@@ -12,7 +12,6 @@ import {
 import {
   createTechnology,
   updateTechnology,
-  getTechnologyByName,
 } from "@/lib/actions/technology.actions";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -29,7 +28,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 
-import { technologyFormDefaultValues } from "@/lib/constants";
+import { technologyFormDefaultValues } from "@/lib/constantes";
 
 const TechnologyForm = ({
   type,

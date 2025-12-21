@@ -1,6 +1,7 @@
 // app/a-propos/page.tsx
 import { Briefcase, Code, GraduationCap, Rocket } from "lucide-react";
 import ItemExperience from "@/components/experience/ItemExperience";
+import { getAllExperience } from "@/lib/actions/experience.actions";
 const experiences = [
   {
     year: "2020 - Présent",
@@ -25,7 +26,17 @@ const skills = [
   { name: "DevOps", level: 70, icon: <GraduationCap className="h-5 w-5" /> },
 ];
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const { data: exps } = await getAllExperience();
+
+  const transformData = exps?.map((exp) => ({
+    year: `${new Date(exp.startDate).getFullYear()} - ${
+      exp.endDate ? new Date(exp.endDate).getFullYear() : "Présent"
+    }`,
+    role: exp.role,
+    company: exp.company,
+    description: exp.description,
+  }));
   return (
     <div className="container mx-auto px-4 py-12">
       <div className="max-w-4xl mx-auto">
@@ -61,7 +72,7 @@ export default function AboutPage() {
                 Expérience Professionnelle
               </h2>
               <div className="space-y-8">
-                {experiences.map((exp, index) => (
+                {transformData?.map((exp, index) => (
                   <ItemExperience key={index} exp={exp} />
                 ))}
               </div>

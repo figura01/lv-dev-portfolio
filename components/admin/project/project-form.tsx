@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createProjectSchema, updateProjectSchema } from "@/lib/validators";
-import { projectFormDefaultValues } from "@/lib/constants";
+import { projectFormDefaultValues } from "@/lib/constantes";
 import {
   Form,
   FormField,

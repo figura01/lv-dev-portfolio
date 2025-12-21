@@ -85,7 +85,7 @@ export function Navbar() {
             </Button>
 
             <Button asChild>
-              <Link href="/sign-in">Connexion</Link>
+              <Link href="/auth/signin">Connexion</Link>
             </Button>
           </div>
         </div>
@@ -110,7 +110,7 @@ export function Navbar() {
                   </Link>
                 ))}
                 <Button asChild>
-                  <Link href="/sign-in">Connexion</Link>
+                  <Link href="/auth/signin">Connexion</Link>
                 </Button>
               </nav>
             </div>
