@@ -18,7 +18,7 @@ export const authConfig = {
     additionalFields: {
       role: {
         type: "string" as const, // Use 'enum' as const to match DBFieldType
-        required: true,
+        required: false,
         default: "USER",
         enum: ["USER", "ADMIN"],
       },
@@ -44,7 +44,7 @@ export const authConfig = {
     additionalFields: {
       userRole: {
         type: "string" as const,
-        required: true,
+        required: false,
         default: "USER",
         enum: ["USER", "ADMIN"],
       },
