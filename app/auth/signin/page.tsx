@@ -45,6 +45,7 @@ export default function SignUpPage() {
       {
         email,
         password,
+        callbackURL: "/admin",
       },
       event
     );
