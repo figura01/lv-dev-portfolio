@@ -2,7 +2,6 @@ import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { nextCookies } from "better-auth/next-js";
 import { prisma } from "@/lib/prisma";
-
 const isProduction = process.env.NODE_ENV === "production";
 
 export const auth = betterAuth({
@@ -30,16 +29,13 @@ export const auth = betterAuth({
   },
   cookies: {
     sessionToken: {
-      name: `__Secure-next-auth.session-token`,
+      name: `${isProduction ? "__Secure-" : ""}auth-session`,
       options: {
         httpOnly: true,
         sameSite: "lax",
         path: "/",
-        secure: process.env.NODE_ENV === "production",
-        domain:
-          process.env.NODE_ENV === "production"
-            ? "lv-dev-portfolio-pink.vercel.app"
-            : "localhost",
+        secure: isProduction,
+        domain: isProduction ? "lv-dev-portfolio-pink.vercel.app" : "localhost",
       },
     },
   },
