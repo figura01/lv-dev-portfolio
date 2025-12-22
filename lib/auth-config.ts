@@ -14,6 +14,9 @@ export const authConfig = {
       url: env.DATABASE_URL,
     },
   },
+  emailAndPassword: {
+    enabled: true,
+  },
   user: {
     additionalFields: {
       role: {
