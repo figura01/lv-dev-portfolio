@@ -54,6 +54,10 @@ export const authConfig = {
     ? process.env.NEXT_PUBLIC_APP_PRODUCTION_URL
     : process.env.NEXT_PUBLIC_APP_URL,
   plugins: [nextCookies()],
+  allowedOrigins: [
+    process.env.NEXT_PUBLIC_APP_URL,
+    process.env.NEXT_PUBLIC_APP_PRODUCTION_URL,
+  ].filter(Boolean) as string[],
 };
 
 export const auth = betterAuth(authConfig);
