@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { auth } from "@/lib/auth";
+import { auth } from "@/lib/auth-config";
 import { getRequiredUser } from "@/lib/auth-session";
 import { headers } from "next/headers";
 
