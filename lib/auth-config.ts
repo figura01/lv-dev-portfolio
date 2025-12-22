@@ -14,6 +14,16 @@ export const authConfig = {
       url: env.DATABASE_URL,
     },
   },
+  user: {
+    additionalFields: {
+      role: {
+        type: "string" as const, // Use 'enum' as const to match DBFieldType
+        required: true,
+        default: "USER",
+        enum: ["USER", "ADMIN"],
+      },
+    },
+  },
   cookies: {
     sessionToken: {
       name: `${isProduction ? "__Secure-" : ""}auth-session`,
@@ -34,12 +44,15 @@ export const authConfig = {
     additionalFields: {
       user: {
         role: {
-          type: "string",
+          type: "string" as const, // Use 'enum' as const to match DBFieldType
           required: true,
+          default: "USER",
+          enum: ["USER", "ADMIN"],
         },
       },
     },
   },
   plugins: [nextCookies()],
 };
+
 export const auth = betterAuth(authConfig);
