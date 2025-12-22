@@ -42,13 +42,11 @@ export const authConfig = {
       maxAge: 5 * 60, // Cache duration in seconds
     },
     additionalFields: {
-      user: {
-        role: {
-          type: "string" as const, // Use 'enum' as const to match DBFieldType
-          required: true,
-          default: "USER",
-          enum: ["USER", "ADMIN"],
-        },
+      userRole: {
+        type: "string" as const,
+        required: true,
+        default: "USER",
+        enum: ["USER", "ADMIN"],
       },
     },
   },
