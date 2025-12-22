@@ -1,31 +1,27 @@
 // middleware.ts
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-const allowedOrigins = [
-  "https://lv-dev-portfolio-pink.vercel.app",
-  "http://localhost:3000",
-];
-export function middleware(request: NextRequest) {
-  const origin = request.headers.get("origin");
-  if (origin && !allowedOrigins.includes(origin)) {
-    return new NextResponse(null, { status: 403 });
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
+// const allowedOrigins = [
+//   "https://lv-dev-portfolio-pink.vercel.app",
+//   "http://localhost:3000",
+// ];
+export async function middleware(request: NextRequest) {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+  const isAuthPage = request.nextUrl.pathname.startsWith("/auth");
+  // Si l'utilisateur n'est pas connecté et essaie d'accéder à /admin
+  if (!session && request.nextUrl.pathname.startsWith("/admin")) {
+    return NextResponse.redirect(new URL("/auth/signin", request.url));
   }
-  const response = NextResponse.next();
-
-  if (origin && allowedOrigins.includes(origin)) {
-    response.headers.set("Access-Control-Allow-Origin", origin);
-    response.headers.set("Access-Control-Allow-Credentials", "true");
-    response.headers.set(
-      "Access-Control-Allow-Methods",
-      "GET, POST, PUT, DELETE, OPTIONS"
-    );
-    response.headers.set(
-      "Access-Control-Allow-Headers",
-      "Content-Type, Authorization"
-    );
+  // Si l'utilisateur est connecté et essaie d'accéder à la page de connexion
+  if (session && isAuthPage) {
+    return NextResponse.redirect(new URL("/admin", request.url));
   }
-  return response;
+  return NextResponse.next();
 }
 export const config = {
-  matcher: "/api/:path*",
+  matcher: ["/admin/:path*", "/auth/:path*"],
 };
