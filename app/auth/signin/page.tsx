@@ -11,6 +11,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { authClient } from "@/lib/auth-client";
+import { on } from "events";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FormEventHandler, useState } from "react";
@@ -27,27 +28,24 @@ export default function SignUpPage() {
     const email = formData.get("email") as string;
     const password = formData.get("password") as string;
 
-    const event = {
-      onRequest: () => {
-        setIsLoading(true);
-      },
-      onSuccess: () => {
-        router.push("/admin");
-        router.refresh();
-      },
-      onError: (ctx: { error: { message: string } }) => {
-        toast.error(ctx.error.message);
-        setIsLoading(false);
-      },
-    };
-
     authClient.signIn.email(
       {
         email,
         password,
         callbackURL: "/admin",
       },
-      event
+      {
+        onError: (error) => {
+          console.error(error);
+          setIsLoading(false);
+          toast.error("An error occurred during sign in.");
+        },
+        onSuccess: () => {
+          setIsLoading(false);
+          toast.success("Successfully signed in!");
+          router.push("/admin");
+        },
+      }
     );
   };
 
