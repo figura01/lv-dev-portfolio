@@ -27,20 +27,22 @@ export default function SignUpPage() {
     const name = formData.get("name") as string;
     const email = formData.get("email") as string;
     const password = formData.get("password") as string;
+    const role = formData.get("role") as string;
 
     authClient.signUp.email(
       {
         email,
         name,
+        role,
         password,
-        callbackURL: "/auth",
+        callbackURL: "/admin",
       },
       {
         onRequest: () => {
           setIsLoading(true);
         },
         onSuccess: () => {
-          router.push("/auth");
+          router.push("/admin");
           router.refresh();
         },
         onError: (ctx) => {
@@ -63,6 +65,7 @@ export default function SignUpPage() {
 
         <CardContent className="space-y-6">
           <form className="space-y-5" onSubmit={handleSubmit}>
+            <input type="hidden" name="role" value="USER" />
             <div className="space-y-4">
               <div className="*:not-first:mt-2">
                 <Label htmlFor={`name`}>Full name</Label>
