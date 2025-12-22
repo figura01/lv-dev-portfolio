@@ -11,7 +11,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { authClient } from "@/lib/auth-client";
-import { on } from "events";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FormEventHandler, useState } from "react";
@@ -21,32 +20,38 @@ export default function SignUpPage() {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
-  const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => {
+  const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
 
-    const formData = new FormData(e.currentTarget);
-    const email = formData.get("email") as string;
-    const password = formData.get("password") as string;
-
-    authClient.signIn.email(
-      {
+    setIsLoading(true);
+    try {
+      const formData = new FormData(e.currentTarget);
+      const email = formData.get("email")?.toString() || "";
+      const password = formData.get("password")?.toString() || "";
+      if (!email || !password) {
+        throw new Error("Email and password are required");
+      }
+      const result = await authClient.signIn.email({
         email,
         password,
         callbackURL: "/admin",
-      },
-      {
-        onError: (error) => {
-          console.error(error);
-          setIsLoading(false);
-          toast.error("An error occurred during sign in.");
-        },
-        onSuccess: () => {
-          setIsLoading(false);
-          toast.success("Successfully signed in!");
-          router.push("/admin");
-        },
+      });
+
+      if (result.error) {
+        throw new Error(result.error.message);
       }
-    );
+      toast.success("Successfully signed in!");
+      router.push("/admin");
+    } catch (error) {
+      console.error("Sign in error:", error);
+      toast.error(
+        error instanceof Error
+          ? error.message
+          : "An error occurred during sign in."
+      );
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
