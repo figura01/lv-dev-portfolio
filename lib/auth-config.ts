@@ -17,6 +17,14 @@ export const authConfig = {
   emailAndPassword: {
     enabled: true,
   },
+  jwt: {
+    enabled: true,
+  },
+  pages: {
+    signIn: "/auth/signin",
+    signOut: "/auth/signout",
+    error: "/auth/error",
+  },
   user: {
     additionalFields: {
       role: {
