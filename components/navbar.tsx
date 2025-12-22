@@ -8,7 +8,7 @@ import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useState, useEffect } from "react";
-
+import { useSession } from "@/lib/auth-client";
 const navItems = [
   { name: "Accueil", path: "/" },
   { name: "Projets", path: "/projects" },
@@ -21,6 +21,8 @@ export function Navbar() {
   // const isClient = useIsClient();
   const pathname = usePathname();
   const { theme, setTheme } = useTheme();
+  const session = useSession();
+  console.log("session: ", session);
 
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme") || "light";
@@ -83,10 +85,15 @@ export function Navbar() {
               )}
               <span className="sr-only">Basculer le menu</span>
             </Button>
-
-            <Button asChild>
-              <Link href="/auth/signin">Connexion</Link>
-            </Button>
+            {session?.data?.user?.role === "ADMIN" ? (
+              <Button asChild>
+                <Link href="/admin">Admin</Link>
+              </Button>
+            ) : (
+              <Button asChild>
+                <Link href="/auth/signin">Connexion</Link>
+              </Button>
+            )}
           </div>
         </div>
 

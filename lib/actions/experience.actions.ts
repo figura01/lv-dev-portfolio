@@ -16,8 +16,8 @@ export async function createExperience(
     const experience = await prisma.experience.create({
       data: {
         ...data,
-        startDate: new Date(data.startDate),
-        endDate: new Date(data.endDate),
+        startDate: data.startDate.toISOString(),
+        endDate: data.endDate.toISOString(),
       },
     });
     if (!experience) throw new Error("L'experience n'a pas été créer");
@@ -39,7 +39,7 @@ export async function getAllExperience() {
   try {
     const experiences = await prisma.experience.findMany({
       orderBy: {
-        createdAt: "desc",
+        createdAt: "asc",
       },
     });
     console.log("experiences: ", experiences);
@@ -71,7 +71,11 @@ export async function updateExperience(
     });
     if (!existingExperience) throw new Error("L'experience n'a pas été trouvé");
     await prisma.experience.update({
-      data,
+      data: {
+        ...data,
+        startDate: data.startDate.toISOString(),
+        endDate: data.endDate.toISOString(),
+      },
       where: {
         id,
       },

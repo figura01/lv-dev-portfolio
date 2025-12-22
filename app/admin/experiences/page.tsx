@@ -55,7 +55,7 @@ export default async function AdminProjectsPage() {
                       {experience.title}
                     </TableCell>
 
-                    <TableCell className="font-medium flex gap-2">
+                    <TableCell>
                       {new Date(experience.startDate).toLocaleDateString()}
                     </TableCell>
 

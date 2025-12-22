@@ -22,8 +22,9 @@ export const projectFormDefaultValues = {
 export const experienceFormDefaultValues = {
   title: "",
   company: "",
-  startDate: "",
-  endDate: "",
+  startDate: new Date(),
+  endDate: new Date(),
   description: "",
   role: "",
+  status: "",
 };

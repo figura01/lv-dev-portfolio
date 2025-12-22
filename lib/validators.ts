@@ -49,6 +49,7 @@ export const createExperienceSchema = z.object({
   endDate: z.date(),
   description: z.string().min(3, ""),
   role: z.string().min(3, ""),
+  status: z.string().min(3, ""),
 });
 
 export const updateExperienceSchema = createExperienceSchema.extend({

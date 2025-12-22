@@ -40,8 +40,20 @@ const ExperienceForm = ({
       experience && type
         ? {
             ...experience,
+            startDate:
+              experience.startDate instanceof Date
+                ? experience.startDate
+                : new Date(experience.startDate),
+            endDate:
+              experience.endDate instanceof Date
+                ? experience.endDate
+                : new Date(experience.endDate),
           }
-        : experienceFormDefaultValues,
+        : {
+            ...experienceFormDefaultValues,
+            startDate: new Date(experienceFormDefaultValues.startDate),
+            endDate: new Date(experienceFormDefaultValues.endDate),
+          },
   });
 
   type FormValues = z.infer<typeof createExperienceSchema>;
@@ -144,10 +156,7 @@ const ExperienceForm = ({
                       label="Date de début"
                       callback={(date) => {
                         if (date) {
-                          form.setValue(
-                            "startDate",
-                            new Date(date).toISOString()
-                          );
+                          form.setValue("startDate", new Date(date));
                         }
                       }}
                     />
@@ -165,10 +174,7 @@ const ExperienceForm = ({
                       label="Date de fin"
                       callback={(date) => {
                         if (date) {
-                          form.setValue(
-                            "endDate",
-                            new Date(date).toISOString()
-                          );
+                          form.setValue("endDate", new Date(date));
                         }
                       }}
                     />
@@ -176,6 +182,17 @@ const ExperienceForm = ({
                 )}
               />
             </div>
+
+            <FormField
+              name="status"
+              control={form.control}
+              render={({ field }) => (
+                <div className="mb-4">
+                  <Label className="mb-2 block">Status</Label>
+                  <Input placeholder="Statut" {...field} />
+                </div>
+              )}
+            />
 
             <Button type="submit" className="mt-4">
               {type === "Create" ? "Créer" : "Mettre à jour"} l&apos;expérience
