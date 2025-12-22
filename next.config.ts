@@ -1,22 +1,18 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  async rewrites() {
-    return {
-      beforeFiles: [
-        {
-          source: "/api/:path*",
-          has: [{ type: "host", value: "lv-dev-portfolio-pink.vercel.app" }],
-          destination: "/api/:path*",
-        },
-      ],
-    };
-  },
   experimental: {
     serverActions: {
       bodySizeLimit: "2mb",
     },
   },
+  // Désactive le Edge Runtime pour les routes API
+  api: {
+    bodyParser: {
+      sizeLimit: "1mb",
+    },
+  },
+  // Désactive le Edge Runtime pour le middleware
   webpack: (config, { isServer }) => {
     if (!isServer) {
       config.resolve.fallback = {
