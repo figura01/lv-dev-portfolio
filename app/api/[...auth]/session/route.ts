@@ -1,9 +1,17 @@
-// app/api/auth/session/route.ts
 import { auth } from "@/lib/auth";
 import { NextResponse } from "next/server";
+import { headers } from "next/headers";
 export async function GET() {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
-  return NextResponse.json({ session });
+  try {
+    const session = await auth.api.getSession({
+      headers: new Headers(await headers()),
+    });
+    return NextResponse.json({ session });
+  } catch (error) {
+    console.error("Session error:", error);
+    return NextResponse.json(
+      { error: "Failed to get session" },
+      { status: 500 }
+    );
+  }
 }
