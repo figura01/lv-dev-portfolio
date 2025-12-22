@@ -2,6 +2,10 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
+export const config = {
+  matcher: ["/admin/:path*", "/auth/:path*"],
+  runtime: "experimental-edge", // Forcer le Edge Runtime
+};
 export async function middleware(request: NextRequest) {
   try {
     // Récupérer la session avec better-auth
@@ -28,6 +32,3 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 }
-export const config = {
-  matcher: ["/admin/:path*", "/auth/:path*"],
-};
