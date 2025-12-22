@@ -3,7 +3,13 @@ import { prismaAdapter } from "better-auth/adapters/prisma";
 import { nextCookies } from "better-auth/next-js";
 import { prisma } from "@/lib/prisma";
 
+const isProduction = process.env.NODE_ENV === "production";
+
 export const auth = betterAuth({
+  baseURL: isProduction
+    ? process.env.NEXT_PUBLIC_APP_PRODUCTION_URL
+    : process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000",
+
   database: prismaAdapter(prisma, {
     provider: "postgresql",
   }),
