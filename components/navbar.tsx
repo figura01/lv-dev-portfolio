@@ -85,7 +85,7 @@ export function Navbar() {
               )}
               <span className="sr-only">Basculer le menu</span>
             </Button>
-            {session?.data?.user?.role === "ADMIN" ? (
+            {session?.data?.user ? (
               <Button asChild>
                 <Link href="/admin">Admin</Link>
               </Button>

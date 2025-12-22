@@ -31,6 +31,14 @@ export const authConfig = {
       enabled: true,
       maxAge: 5 * 60, // Cache duration in seconds
     },
+    additionalFields: {
+      user: {
+        role: {
+          type: "string",
+          required: true,
+        },
+      },
+    },
   },
   plugins: [nextCookies()],
 };
