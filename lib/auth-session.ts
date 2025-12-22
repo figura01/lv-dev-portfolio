@@ -1,6 +1,7 @@
 import { headers } from "next/headers";
 import { unauthorized } from "next/navigation";
-import { auth } from "./auth";
+import { auth } from "@/lib/auth-config";
+// In an async component or function
 
 export const getUser = async () => {
   const session = await auth.api.getSession({

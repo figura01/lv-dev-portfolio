@@ -32,7 +32,7 @@ export const authConfig = {
         sameSite: "lax",
         path: "/",
         secure: isProduction,
-        domain: isProduction ? "lv-dev-portfolio-pink.vercel.app" : "localhost",
+        domain: isProduction ? ".vercel.app" : "localhost",
       },
     },
   },
@@ -50,6 +50,9 @@ export const authConfig = {
       },
     },
   },
+  baseUrl: isProduction
+    ? process.env.NEXT_PUBLIC_APP_PRODUCTION_URL
+    : process.env.NEXT_PUBLIC_APP_URL,
   plugins: [nextCookies()],
 };
 
