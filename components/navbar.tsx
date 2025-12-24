@@ -8,11 +8,15 @@ import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useState, useEffect } from "react";
-import { useSession } from "@/lib/auth-client";
+import { useSession } from "@/lib/hooks/useSession";
+import { useAuth } from "@/lib/hooks/useAuth";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+
 const navItems = [
   { name: "Accueil", path: "/" },
   { name: "Projets", path: "/projects" },
-  { name: "Services", path: "/services" },
+  // { name: "Services", path: "/services" },
   { name: "À Propos", path: "/about" },
   { name: "Contact", path: "/contact" },
 ];
@@ -21,8 +25,10 @@ export function Navbar() {
   // const isClient = useIsClient();
   const pathname = usePathname();
   const { theme, setTheme } = useTheme();
-  const session = useSession();
-  console.log("session: ", session);
+  const router = useRouter();
+  const { logout } = useAuth();
+
+  const { user } = useSession();
 
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme") || "light";
@@ -85,13 +91,34 @@ export function Navbar() {
               )}
               <span className="sr-only">Basculer le menu</span>
             </Button>
-            {session?.data?.user ? (
-              <Button asChild>
-                <Link href="/admin">Admin</Link>
-              </Button>
+            {user ? (
+              <>
+                <Button asChild>
+                  <Link href="/admin">Admin</Link>
+                </Button>
+                <Button
+                  variant="outline"
+                  onClick={() =>
+                    logout({
+                      onSuccess: () => {
+                        toast.success("Déconnecté avec succès !");
+                        router.push("/");
+                        router.refresh();
+                      },
+                      onError: () => {
+                        toast.error(
+                          "Échec de la déconnexion. Veuillez réessayer."
+                        );
+                      },
+                    })
+                  }
+                >
+                  Déconnexion
+                </Button>
+              </>
             ) : (
               <Button asChild>
-                <Link href="/auth/signin">Connexion</Link>
+                <Link href="/auth/login">Connexion</Link>
               </Button>
             )}
           </div>
@@ -116,9 +143,36 @@ export function Navbar() {
                     {item.name}
                   </Link>
                 ))}
-                <Button asChild>
-                  <Link href="/auth/signin">Connexion</Link>
-                </Button>
+
+                {user ? (
+                  <>
+                    <Button asChild>
+                      <Link href="/admin">Admin</Link>
+                    </Button>
+                    <Button
+                      variant="outline"
+                      onClick={() =>
+                        logout({
+                          onSuccess: () => {
+                            toast.success("Déconnecté avec succès !");
+                            router.push("/");
+                          },
+                          onError: () => {
+                            toast.error(
+                              "Échec de la déconnexion. Veuillez réessayer."
+                            );
+                          },
+                        })
+                      }
+                    >
+                      Déconnexion
+                    </Button>
+                  </>
+                ) : (
+                  <Button asChild>
+                    <Link href="/auth/login">Connexion</Link>
+                  </Button>
+                )}
               </nav>
             </div>
           </div>

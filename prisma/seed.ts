@@ -1,75 +1,28 @@
-import bcrypt from "bcryptjs";
 import { PrismaClient } from "@prisma/client";
 
+import { hash } from "bcryptjs";
 const prisma = new PrismaClient();
-
 async function main() {
-  const email = process.argv[2];
-  console.log("Start seeding...");
-
-  // Clear existing data except for the specified user if email is provided
-
-  await prisma.project.deleteMany();
-
-  if (!email) {
-    // Delete users without auth relationships only if no email is specified
-    await prisma.user.deleteMany({
-      where: {
-        accounts: {
-          none: {},
-        },
-      },
-    });
-
-    const user = await prisma.user.create({
-      data: {
-        name: "Admin",
-        email: "testadmin@exemple.com",
-        role: "ADMIN",
-        emailVerified: true,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-      },
-    });
-    console.log("user created: ", user);
-
-    const hashedPassword = bcrypt.hashSync("admin1234", 12);
-
-    const userAccount = await prisma.account.create({
-      data: {
-        id: `${user.id}-credentials`,
-        accountId: user.id,
-        userId: user.id,
-        password: hashedPassword,
-        providerId: "credentials",
-      },
-    });
-
-    if (userAccount) {
-      console.log("Account created");
-    }
-
-    console.log("user created: ", user);
-  } else {
-    // If email is provided, find the user and create projects for them
-    const user = await prisma.user.findUnique({
-      where: { email },
-    });
-
-    if (!user) {
-      throw new Error(`No user found with email: ${email}`);
-    }
-  }
-
-  console.log("Seeding finished.");
+  // Utilisez une valeur de hachage statique pour le test
+  // Ceci est un hachage bcrypt valide pour le mot de passe "password123"
+  const hashedPassword = await hash("admin1234", 12);
+  console.log("hashedPassword:", hashedPassword);
+  const user = await prisma.user.create({
+    data: {
+      name: "Admin",
+      email: "admin@example.com",
+      password: hashedPassword,
+      emailVerified: true,
+      role: "ADMIN",
+    },
+  });
+  console.log("User created:", user);
 }
-
 main()
-  .then(async () => {
-    await prisma.$disconnect();
-  })
-  .catch(async (e) => {
+  .catch((e) => {
     console.error(e);
-    await prisma.$disconnect();
     process.exit(1);
+  })
+  .finally(async () => {
+    await prisma.$disconnect();
   });
