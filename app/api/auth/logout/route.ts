@@ -9,6 +9,18 @@ export async function POST() {
     maxAge: 0,
   });
 
+  response.cookies.set("token", "", {
+    httpOnly: true,
+    path: "/",
+    maxAge: 0,
+  });
+
+  response.cookies.set("role", "", {
+    httpOnly: true,
+    path: "/",
+    maxAge: 0,
+  });
+
   response.cookies.set("refresh_token", "", {
     httpOnly: true,
     path: "/",
