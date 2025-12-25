@@ -59,8 +59,10 @@ const ProjectForm = ({
   type FormValues = z.infer<typeof createProjectSchema>;
 
   const onSubmit = async (values: FormValues) => {
-    console.log("values: ", values);
+    console.log("values valid?: ", createProjectSchema.parse(values));
     if (!isUpdate) {
+      console.log("Creating project...");
+      console.log("values valid?: ", createProjectSchema.parse(values));
       const { message, success } = await createProject(values);
       if (success) {
         toast.success("Le projet à bien été créer!");
