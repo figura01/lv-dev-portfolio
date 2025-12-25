@@ -79,6 +79,7 @@ export async function createTechnology(
       },
     });
     if (!tech) throw new Error("Fail to create a new Tech");
+    revalidatePath("/admin/technologies");
 
     return {
       success: true,
@@ -103,6 +104,7 @@ export async function deleteTechnology(id: string) {
     await prisma.technology.delete({
       where: { id },
     });
+    revalidatePath("/admin/technologies");
     return {
       success: true,
       message: `Successfully deleted technology ID: ${existedTech.id}, Name:${existedTech.name}}`,
