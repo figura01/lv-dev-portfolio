@@ -71,27 +71,28 @@ export async function createTechnology(
 ) {
   console.log(data);
   const validTech = createTechnologySchema.parse(data);
-  console.log("isValidTech? : ", validTech);
-  try {
-    const tech = await prisma.technology.create({
-      data: {
-        name: data.name,
-      },
-    });
-    if (!tech) throw new Error("Fail to create a new Tech");
-    revalidatePath("/admin/technologies");
+  if (validTech) {
+    try {
+      const tech = await prisma.technology.create({
+        data: {
+          name: data.name,
+        },
+      });
+      if (!tech) throw new Error("Fail to create a new Tech");
+      revalidatePath("/admin/technologies");
 
-    return {
-      success: true,
-      message: "Successfully created a new technology",
-      data: tech,
-    };
-  } catch (error) {
-    console.error(error);
-    return {
-      success: false,
-      message: "Fail to create a new technology",
-    };
+      return {
+        success: true,
+        message: "Successfully created a new technology",
+        data: tech,
+      };
+    } catch (error) {
+      console.error(error);
+      return {
+        success: false,
+        message: "Fail to create a new technology",
+      };
+    }
   }
 }
 

@@ -60,12 +60,17 @@ const TechnologyForm = ({
     try {
       if (!isUpdate) {
         const res = await createTechnology(values);
-        if (res.success) {
+        if (!res) {
+          toast.error("Une erreur est survenue");
+          return;
+        }
+        const { success, message } = res;
+        if (success) {
           toast.success("Technologie créée avec succès");
           router.push("/admin/technologies");
           router.refresh();
         } else {
-          toast.error(res.message);
+          toast.error(message);
         }
       } else {
         if (!technologyId) {
