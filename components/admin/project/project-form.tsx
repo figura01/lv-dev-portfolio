@@ -37,9 +37,7 @@ const ProjectForm = ({
 }: {
   technologies: TechnologyType[];
   type: "Update" | "Create";
-  project?:
-    | z.infer<typeof updateProjectSchema>
-    | z.infer<typeof createProjectSchema>;
+  project?: z.infer<typeof updateProjectSchema>;
   projectId?: string;
 }) => {
   const router = useRouter();
@@ -47,9 +45,9 @@ const ProjectForm = ({
   const isUpdate = type === "Update";
 
   const form = useForm<z.infer<typeof createProjectSchema>>({
-    resolver: zodResolver(isUpdate ? createProjectSchema : updateProjectSchema),
+    resolver: zodResolver(isUpdate ? updateProjectSchema : createProjectSchema),
     defaultValues:
-      project && type === "Update"
+      project && isUpdate
         ? {
             ...project,
           }
@@ -59,10 +57,7 @@ const ProjectForm = ({
   type FormValues = z.infer<typeof createProjectSchema>;
 
   const onSubmit = async (values: FormValues) => {
-    console.log("values valid?: ", createProjectSchema.parse(values));
     if (!isUpdate) {
-      console.log("Creating project...");
-      console.log("values valid?: ", createProjectSchema.parse(values));
       const { message, success } = await createProject(values);
       if (success) {
         toast.success("Le projet à bien été créer!");
@@ -72,13 +67,20 @@ const ProjectForm = ({
         toast.error(message);
       }
     } else {
-      if (!projectId) {
+      if (!projectId || !project) {
         router.push("/admin/projects");
         return;
       }
 
-      const res = await updateProject(values, projectId);
-      console.log(res);
+      const { message, success } = await updateProject(values, projectId);
+
+      if (success) {
+        toast.success("Le projet à bien été mis à jour!");
+        router.push("/admin/projects");
+        router.refresh();
+      } else {
+        toast.error(message);
+      }
     }
   };
 
