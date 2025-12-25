@@ -16,7 +16,7 @@ export const projectFormDefaultValues = {
   isFeatured: false,
   features: [],
   technologies: [],
-  lin_url: "",
+  link_url: "",
 };
 
 export const experienceFormDefaultValues = {

@@ -49,7 +49,7 @@ const ProjectForm = ({
   const form = useForm<z.infer<typeof createProjectSchema>>({
     resolver: zodResolver(isUpdate ? createProjectSchema : updateProjectSchema),
     defaultValues:
-      project && type
+      project && type === "Update"
         ? {
             ...project,
           }

@@ -95,6 +95,7 @@ export async function createProject(data: z.infer<typeof createProjectSchema>) {
       },
     });
     if (!project) {
+      throw new Error("Le projet n'a pas pu être créé");
     }
     revalidatePath("/admin/projects");
     return {
