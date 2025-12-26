@@ -4,6 +4,7 @@ import ProjectCard from "@/components/project-card";
 
 export default async function ProjetsPage() {
   const { data: projects } = await getAllProjects();
+  console.log("projects: ", projects);
 
   return (
     <div className="container mx-auto px-4 py-12">
