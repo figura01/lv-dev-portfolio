@@ -21,6 +21,7 @@ export async function createExperience(
       },
     });
     if (!experience) throw new Error("L'experience n'a pas été créer");
+    revalidatePath("/admin/experiences");
     return {
       success: true,
       data: experience,

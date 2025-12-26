@@ -24,7 +24,7 @@ const ProjectCard = ({
               alt={project.title}
               width={200}
               height={150}
-              className="object-fill"
+              className="w-full h-50 object-fill"
               priority
             />
           )}
@@ -33,7 +33,9 @@ const ProjectCard = ({
           <h3 className="text-xl font-semibold mb-2 group-hover:text-primary transition-colors">
             {project.title}
           </h3>
-          <p className="text-muted-foreground mb-4">{project.excerpt}</p>
+          <p className="text-muted-foreground mb-4">
+            {project.excerpt.slice(0, 150)}...
+          </p>
           <div className="flex flex-wrap gap-2">
             {project.technologies.map((tag, i) => (
               <span key={i} className="text-xs px-2 py-1 bg-muted rounded-full">
