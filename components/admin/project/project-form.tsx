@@ -23,6 +23,7 @@ import { createProject, updateProject } from "@/lib/actions/project.actions";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { z } from "zod";
+import slugify from "slugify";
 
 export type TechnologyType = {
   id: string;
@@ -123,7 +124,17 @@ const ProjectForm = ({
                       <FormControl>
                         <Input {...field} placeholder="slug" />
                       </FormControl>
-                      <Button className="flex w-fit">Générer le slug</Button>
+                      <Button
+                        className="flex w-fit"
+                        onClick={() => {
+                          form.setValue(
+                            "slug",
+                            slugify(form.getValues("title"), { lower: true })
+                          );
+                        }}
+                      >
+                        Générer le slug
+                      </Button>
                       <FormMessage />
                     </FormItem>
                   )}
