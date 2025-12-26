@@ -67,9 +67,14 @@ export async function getOneProjectById(id: string) {
 export async function deleteProject(id: string) {
   try {
     const existedProject = await prisma.project.findFirst({ where: { id } });
+
     if (!existedProject) throw new Error("Projet non trouvé");
 
+    console.log("existedProject: ", existedProject);
+
     await prisma.project.delete({ where: { id } });
+    revalidatePath("/admin/projects");
+
     return {
       success: true,
       message: `Le projet id: ${id} title: ${existedProject.title} a bien été supprimé`,
