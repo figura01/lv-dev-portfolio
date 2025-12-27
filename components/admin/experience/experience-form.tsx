@@ -19,6 +19,7 @@ import {
 import { toast } from "sonner";
 import { redirect, useRouter } from "next/navigation";
 import { experienceFormDefaultValues } from "@/lib/constantes";
+import { ro } from "date-fns/locale";
 
 const ExperienceForm = ({
   type,
@@ -72,6 +73,7 @@ const ExperienceForm = ({
         if (createdExperience.success) {
           toast.success("Une experience a bien été créer!");
           router.push("/admin/experiences");
+          router.refresh();
         }
       } else {
         if (!experienceId) {
