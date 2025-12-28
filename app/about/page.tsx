@@ -2,22 +2,22 @@
 import { Briefcase, Code, GraduationCap, Rocket } from "lucide-react";
 import ItemExperience from "@/components/experience/ItemExperience";
 import { getAllExperience } from "@/lib/actions/experience.actions";
-const experiences = [
-  {
-    year: "2020 - Présent",
-    role: "Développeur Full Stack Freelance",
-    company: "Auto-entrepreneur",
-    description:
-      "Développement d'applications web sur mesure pour divers clients.",
-  },
-  {
-    year: "2018 - 2020",
-    role: "Développeur Frontend",
-    company: "Entreprise Tech",
-    description:
-      "Développement d'interfaces utilisateur réactives et accessibles.",
-  },
-];
+// const experiences = [
+//   {
+//     year: "2020 - Présent",
+//     role: "Développeur Full Stack Freelance",
+//     company: "Auto-entrepreneur",
+//     description:
+//       "Développement d'applications web sur mesure pour divers clients.",
+//   },
+//   {
+//     year: "2018 - 2020",
+//     role: "Développeur Frontend",
+//     company: "Entreprise Tech",
+//     description:
+//       "Développement d'interfaces utilisateur réactives et accessibles.",
+//   },
+// ];
 
 const skills = [
   { name: "Développement Web", level: 90, icon: <Code className="h-5 w-5" /> },
@@ -28,6 +28,8 @@ const skills = [
 
 export default async function AboutPage() {
   const { data: exps } = await getAllExperience();
+
+  console.log("exps: ", exps);
 
   const transformData = exps?.map((exp) => ({
     year: `${new Date(exp.startDate).getFullYear()} - ${
