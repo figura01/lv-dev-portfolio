@@ -43,7 +43,9 @@ export function Navbar() {
         <div className="flex h-16 items-center justify-between mx-8">
           <Button asChild variant="ghost" className="p-0">
             <Link href="/" className="flex item-center justify-center m-0 p-0">
-              Portfolio
+              <h1 className="text-2xl font-bold">
+                <span className="text-blue-400">LV</span>DEV
+              </h1>
             </Link>
           </Button>
 

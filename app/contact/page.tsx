@@ -29,7 +29,7 @@ export default function ContactPage() {
     e.preventDefault();
     // Ici, vous pourriez ajouter la logique d'envoi du formulaire
     console.log("Formulaire soumis:", formData);
-    alert("Message envoyé avec succès !");
+    // alert("Message envoyé avec succès !");
     setFormData({ name: "", email: "", subject: "", message: "" });
   };
 
@@ -63,10 +63,10 @@ export default function ContactPage() {
                 <div>
                   <h3 className="text-lg font-medium mb-1">Email</h3>
                   <a
-                    href="mailto:contact@exemple.com"
+                    href="mailto:figura.graphik@gmail.com"
                     className="text-muted-foreground hover:text-primary transition-colors"
                   >
-                    contact@exemple.com
+                    figura.graphik@gmail.com
                   </a>
                 </div>
               </div>
@@ -78,16 +78,16 @@ export default function ContactPage() {
                 <div>
                   <h3 className="text-lg font-medium mb-1">Téléphone</h3>
                   <a
-                    href="tel:+33612345678"
+                    href="tel:+33681747613"
                     className="text-muted-foreground hover:text-primary transition-colors"
                   >
-                    +33 6 12 34 56 78
+                    +33 6 81 74 76 13
                   </a>
                 </div>
               </div>
             </div>
 
-            <div className="mt-12">
+            {/* <div className="mt-12">
               <h2 className="text-2xl font-semibold mb-6">Réseaux Sociaux</h2>
               <div className="flex gap-4">
                 {["Twitter", "GitHub", "LinkedIn", "Dribbble"].map((social) => (
@@ -101,7 +101,7 @@ export default function ContactPage() {
                   </a>
                 ))}
               </div>
-            </div>
+            </div> */}
           </div>
 
           <div className="bg-card p-8 rounded-xl border shadow-sm">
