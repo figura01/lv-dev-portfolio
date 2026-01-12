@@ -87,6 +87,38 @@ export async function deleteProject(id: string) {
   }
 }
 
+export async function getFeaturedProjects() {
+  try {
+    const projects = await prisma.project.findMany({
+      where: { isFeatured: true, published: true },
+      orderBy: {
+        createdAt: "asc",
+      },
+      include: {
+        technologies: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
+      },
+      take: 2,
+    });
+    if (!projects) throw new Error("Pas de projets trouvés");
+
+    return {
+      success: true,
+      data: projects,
+      message: "Liste des projets chargée",
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: `${error}`,
+    };
+  }
+}
+
 export async function createProject(data: z.infer<typeof createProjectSchema>) {
   console.log(data);
   console.log("valide data: ", createProjectSchema.parse(data));

@@ -27,6 +27,7 @@ export const createProjectSchema = z.object({
     .string()
     .min(3, "L'exerpt est requis et doit avoir au minimum 3 charactaires"),
   image: z.string().url("L'URL de l'image n'est pas valide").or(z.literal("")),
+  publishedAt: z.date(),
   published: z.boolean().default(false),
   isFeatured: z.boolean().default(false),
   features: z.array(z.string()).min(1, "Doit au moins avoir une features"),

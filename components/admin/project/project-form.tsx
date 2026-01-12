@@ -24,6 +24,8 @@ import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { z } from "zod";
 import slugify from "slugify";
+import { Calendar } from "@/components/ui/calendar";
+import { CustomCalendar } from "@/components/ui/custom-calendar";
 
 export type TechnologyType = {
   id: string;
@@ -345,6 +347,30 @@ const ProjectForm = ({
                           type="url"
                           placeholder="http://exemple.com"
                         />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  name="publishedAt"
+                  control={form.control}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>ILink URL</FormLabel>
+                      <FormControl>
+                        <div className="w-full mb-4">
+                          <CustomCalendar
+                            {...field}
+                            label="Date de réalisation"
+                            callback={(date) => {
+                              if (date) {
+                                form.setValue("publishedAt", new Date(date));
+                              }
+                            }}
+                          />
+                        </div>
                       </FormControl>
                       <FormMessage />
                     </FormItem>
