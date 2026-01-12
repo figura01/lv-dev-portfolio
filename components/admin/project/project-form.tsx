@@ -24,8 +24,7 @@ import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { z } from "zod";
 import slugify from "slugify";
-import { Calendar } from "@/components/ui/calendar";
-import { CustomCalendar } from "@/components/ui/custom-calendar";
+import { CustomCalendar } from "@/components/custom-calendar";
 
 export type TechnologyType = {
   id: string;
