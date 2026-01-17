@@ -339,7 +339,7 @@ const ProjectForm = ({
                   control={form.control}
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>ILink URL</FormLabel>
+                      <FormLabel>Link URL</FormLabel>
                       <FormControl>
                         <Input
                           {...field}
@@ -357,7 +357,6 @@ const ProjectForm = ({
                   control={form.control}
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>ILink URL</FormLabel>
                       <FormControl>
                         <div className="w-full mb-4">
                           <CustomCalendar

@@ -9,7 +9,7 @@ import {
   updateExperienceSchema,
 } from "@/lib/validators";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { CustomCalendar } from "./custom-calendar";
+import { CustomCalendar } from "../../custom-calendar";
 import { Input } from "@/components/ui/input";
 import { z } from "zod";
 import {

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { getFeaturedProjects } from "@/lib/actions/project.actions";
-import PreviewCardProject from "@/components/project-card";
+import PreviewProjectCard from "@/components/preview-project-card";
 
 const PreviewFeaturedProjects = async () => {
   const { data: projects } = await getFeaturedProjects();
@@ -23,9 +23,10 @@ const PreviewFeaturedProjects = async () => {
         </div>
 
         <div className="grid md:grid-cols-2 gap-8">
-          {projects?.map((item) => (
-            <PreviewCardProject key={item.id} project={item} />
-          ))}
+          {projects &&
+            projects.map((item) => (
+              <PreviewProjectCard key={item.id} project={item} />
+            ))}
         </div>
       </div>
     </section>

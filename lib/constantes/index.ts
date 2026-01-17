@@ -13,6 +13,7 @@ export const projectFormDefaultValues = {
   excerpt: "",
   image: "",
   published: false,
+  publishedAt: new Date(),
   isFeatured: false,
   features: [],
   technologies: [],
