@@ -29,3 +29,11 @@ export const experienceFormDefaultValues = {
   role: "",
   status: "",
 };
+
+export const formContactValues = {
+  name: "",
+  email: "",
+  subject: "",
+  message: "",
+  to: process.env.SEND_MAIL || "onboarding@resend.dev",
+};

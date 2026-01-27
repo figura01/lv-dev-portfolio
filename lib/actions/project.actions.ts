@@ -120,8 +120,6 @@ export async function getFeaturedProjects() {
 }
 
 export async function createProject(data: z.infer<typeof createProjectSchema>) {
-  console.log(data);
-  console.log("valide data: ", createProjectSchema.parse(data));
   try {
     const project = await prisma.project.create({
       data: {

@@ -19,3 +19,11 @@ export interface IProject {
   createdAt: Date;
   updatedAt: Date;
 }
+
+export interface ISocialMedia {
+  id: string;
+  name: string;
+  linkUrl: string;
+  createdAt: Date;
+  updatedAt: Date;
+}

@@ -63,3 +63,26 @@ export const loginSchema = z.object({
 });
 
 export type LoginFormValues = z.infer<typeof loginSchema>;
+
+export const createSocialMediaSchema = z.object({
+  name: z.string().min(2, "Nom trop court"),
+  linkUrl: z.string().min(2, "linkUrl doit contenir au moins 2 charactaires"),
+});
+
+export const updateSocialMediaSchema = createSocialMediaSchema.extend({
+  id: z.string(),
+});
+
+export const formContactSchema = z.object({
+  name: z
+    .string()
+    .min(2, "Le nom est requis et doit avoir au minimum 2 charactaires"),
+  email: z.string().email("Email invalide"),
+  subject: z
+    .string()
+    .min(2, "Le sujet est requis et doit avoir au minimum 2 charactaires"),
+  message: z
+    .string()
+    .min(10, "Le message est requis et doit avoir au minimum 10 charactaires"),
+  to: z.string().email("Email destinataire invalide"),
+});

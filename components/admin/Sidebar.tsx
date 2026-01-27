@@ -10,6 +10,7 @@ const navigation = [
   { name: "Technologies", href: "/admin/technologies", icon: "🛠️" },
   { name: "Expériences", href: "/admin/experiences", icon: "🎓" },
   { name: "Compétences", href: "/admin/competences", icon: "🎯" },
+  { name: "Social Média", href: "/admin/social-media", icon: "🎯" },
 ];
 
 export function Sidebar() {
