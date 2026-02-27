@@ -1,6 +1,6 @@
 import { Resend } from "resend";
 import { NextResponse } from "next/server";
-import ContactEmail from "@/email/contact-email";
+import ContactEmail from "@/components/email/template-mail";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -20,7 +20,13 @@ export async function POST(req: Request) {
       to: "figura.graphik@gmail.com",
       subject: `📩 Nouveau message de ${name}`,
       replyTo: email,
-      react: ContactEmail({ name, email, message }),
+      react: ContactEmail({
+        name,
+        from: email,
+        message,
+        to: "figura.graphik@gmail.com",
+        subject: `📩 Nouveau message de ${name}`,
+      }),
     });
 
     return NextResponse.json({ success: true });
@@ -28,7 +34,7 @@ export async function POST(req: Request) {
     console.error(error);
     return NextResponse.json(
       { error: "Erreur lors de l'envoi" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

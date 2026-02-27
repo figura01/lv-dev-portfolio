@@ -12,23 +12,21 @@ import {
   Text,
 } from "@react-email/components";
 
-interface GithubAccessTokenEmailProps {
-  data?: {
-    username: string;
-    to: string;
-    from: string;
-    subject: string;
-    message: string;
-  };
+interface IContactEmailProps {
+  name: string;
+  to: string;
+  from: string;
+  subject: string;
+  message: string;
 }
 
-const baseUrl = process.env.VERCEL_URL
-  ? `https://${process.env.VERCEL_URL}`
-  : "";
-
-export const GithubAccessTokenEmail = ({
-  data,
-}: GithubAccessTokenEmailProps) => (
+export const ContactEmail = ({
+  name,
+  to,
+  from,
+  subject,
+  message,
+}: IContactEmailProps) => (
   <Html>
     <Tailwind>
       <Head />
@@ -38,18 +36,18 @@ export const GithubAccessTokenEmail = ({
         </Preview>
         <Container className="max-w-[480px] mx-auto my-0 pt-5 pb-12 px-0">
           <Text className="text-[24px] leading-[1.25]">
-            <strong>@{data?.username}</strong>, wrote a email.
+            <strong>@{name}</strong>, wrote a email, to: {to}
           </Text>
 
           <Section className="p-6 border border-solid border-[#dedede] rounded-[5px] text-center">
             <Text className="mb-[10px] mt-0 text-left">
-              Email:<strong>{data?.from}</strong>!
+              Email:<strong>{from}</strong>!
             </Text>
             <Button className="text-sm bg-[#28a745] text-white leading-normal rounded-lg py-3 px-6">
-              Subject: {data?.subject}
+              Subject: {subject}
             </Button>
             <Text className="mb-[10px] mt-0 text-left">
-              Message: <strong>{data?.message}</strong>
+              Message: <strong>{message}</strong>
             </Text>
           </Section>
           <Text className="text-center">
@@ -69,4 +67,4 @@ export const GithubAccessTokenEmail = ({
   </Html>
 );
 
-export default GithubAccessTokenEmail;
+export default ContactEmail;

@@ -153,7 +153,7 @@ const FormContact = () => {
           ) : (
             <>
               <Send className="mr-2 h-4 w-4" />
-              Envoyer le message
+              {isPending ? "Envoie du message..." : "Envoyer le message"}
             </>
           )}
         </Button>

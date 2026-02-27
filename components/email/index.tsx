@@ -1,15 +1,15 @@
 import { Resend } from "resend";
 
-import { GithubAccessTokenEmail } from "@/components/email/template-mail";
+import { ContactEmail } from "@/components/email/template-mail";
 
 const resend = new Resend(process.env.RESEND_API_KEY as string);
-export const sendPurchaseReceipt = async ({
+export const sendContactEmail = async ({
   data,
 }: {
   data: {
     email: string;
     subject: string;
-    username: string;
+    name: string;
     message: string;
     from: string;
   };
@@ -17,7 +17,7 @@ export const sendPurchaseReceipt = async ({
   await resend.emails.send({
     from: `contact@${process.env.NEXT_PUBLIC_DOMAIN_NAME}`,
     to: data.email,
-    subject: `Order confirmation ${data.subject}`,
-    react: <GithubAccessTokenEmail data={{ ...data, to: data.email }} />,
+    subject: `Contact message from ${data.name}`,
+    react: <ContactEmail {...data} to={data.email} />,
   });
 };
