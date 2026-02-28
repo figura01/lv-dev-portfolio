@@ -1,9 +1,11 @@
 import SocialMediaForm from "@/components/admin/social-media/social-media-form";
 import { getSocialMediaById } from "@/lib/actions/social-media.actions";
 
-const CreateSocailMediaPage = async (props: { params: { id: string } }) => {
-  const socialMediaId = await props.params.id;
-  const { data: socialMedia } = await getSocialMediaById(socialMediaId);
+const CreateSocailMediaPage = async (props: {
+  params: Promise<{ id: string }>;
+}) => {
+  const { id } = await props.params;
+  const { data: socialMedia } = await getSocialMediaById(id);
 
   if (!socialMedia) {
     return <div className="container mx-auto py-8">Social media not found</div>;
@@ -15,7 +17,7 @@ const CreateSocailMediaPage = async (props: { params: { id: string } }) => {
       <SocialMediaForm
         type="Update"
         socialMedia={socialMedia}
-        socialMediaId={socialMediaId}
+        socialMediaId={id}
       />
     </div>
   );
