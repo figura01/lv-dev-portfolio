@@ -1,4 +1,4 @@
-"use server";
+/* "use server";
 
 import React from "react";
 import { Resend } from "resend";
@@ -33,3 +33,4 @@ export async function sendContactMail(
     return { success: false, message: "Failed to send email" };
   }
 }
+  */
