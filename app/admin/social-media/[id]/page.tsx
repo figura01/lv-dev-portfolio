@@ -1,8 +1,8 @@
 import SocialMediaForm from "@/components/admin/social-media/social-media-form";
 import { getSocialMediaById } from "@/lib/actions/social-media.actions";
 
-const CreateSocailMediaPage = async (props: { id: string }) => {
-  const socialMediaId = await props.id;
+const CreateSocailMediaPage = async (props: { params: { id: string } }) => {
+  const socialMediaId = await props.params.id;
   const { data: socialMedia } = await getSocialMediaById(socialMediaId);
 
   if (!socialMedia) {
