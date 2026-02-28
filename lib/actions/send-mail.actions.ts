@@ -7,8 +7,8 @@ import { formContactSchema } from "@/lib/validators";
 import { ContactEmail as EmailTemplate } from "@/components/email/template-mail";
 import { z } from "zod";
 const SENDER_EMAIL =
-  (process.env.SEND_EMAIL as string) || "onboarding@resend.dev";
-const resend = new Resend(process.env.SENDINBLUE_API_KEY);
+  (process.env.SENDER_EMAIL as string) || "onboarding@resend.dev";
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function sendContactMail(
   { name, email, message }: z.infer<typeof formContactSchema>,
