@@ -2,8 +2,7 @@ FROM node:18-slim
 
 WORKDIR /app
 
-# 👇 AJOUTER ÇA
-RUN apk add --no-cache openssl
+RUN apt-get update && apt-get install -y openssl
 
 COPY package*.json ./
 RUN npm install
