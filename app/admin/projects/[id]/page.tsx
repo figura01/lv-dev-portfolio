@@ -2,6 +2,8 @@ import { getOneProjectById } from "@/lib/actions/project.actions";
 import { getAllTechnology } from "@/lib/actions/technology.actions";
 import ProjectForm from "@/components/admin/project/project-form";
 
+export const dynamic = "force-dynamic";
+
 const AdminEditProjectPage = async (props: {
   params: Promise<{ id: string }>;
 }) => {

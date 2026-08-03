@@ -13,6 +13,8 @@ export const metadata: Metadata = {
   description: "Contactez-moi pour discuter de votre projet.",
 };
 
+export const dynamic = "force-dynamic";
+
 export default async function ContactPage() {
   const { data: socialMedias } = await getAllSocialMedia();
 

@@ -15,6 +15,8 @@ import { getAllProjects, deleteProject } from "@/lib/actions/project.actions";
 import { Plus, Pencil } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 
+export const dynamic = "force-dynamic";
+
 export default async function AdminProjectsPage() {
   const { data: projects } = await getAllProjects();
   console.log("projects: ", projects);

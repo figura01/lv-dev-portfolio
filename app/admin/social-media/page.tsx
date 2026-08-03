@@ -16,6 +16,8 @@ import {
   deleteSocialMedia,
 } from "@/lib/actions/social-media.actions";
 
+export const dynamic = "force-dynamic";
+
 const SocialMediaPage = async () => {
   const { data: socialMedias } = await getAllSocialMedia();
   return (

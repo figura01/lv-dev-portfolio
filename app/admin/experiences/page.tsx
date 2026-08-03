@@ -17,6 +17,8 @@ import {
 } from "@/lib/actions/experience.actions";
 import { Plus, Pencil } from "lucide-react";
 
+export const dynamic = "force-dynamic";
+
 export default async function AdminProjectsPage() {
   const { data: experiences } = await getAllExperience();
 

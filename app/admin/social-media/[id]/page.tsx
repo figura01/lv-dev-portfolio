@@ -1,6 +1,8 @@
 import SocialMediaForm from "@/components/admin/social-media/social-media-form";
 import { getSocialMediaById } from "@/lib/actions/social-media.actions";
 
+export const dynamic = "force-dynamic";
+
 const CreateSocailMediaPage = async (props: {
   params: Promise<{ id: string }>;
 }) => {

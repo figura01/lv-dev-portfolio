@@ -16,6 +16,8 @@ import DeleteDialog from "@/components/admin/delete-dialog";
 import { deleteTechnology } from "@/lib/actions/technology.actions";
 import { Plus, Pencil } from "lucide-react";
 
+export const dynamic = "force-dynamic";
+
 export default async function AdminTechnologiesPage() {
   const technologies = await prisma.technology.findMany({
     orderBy: { name: "asc" },

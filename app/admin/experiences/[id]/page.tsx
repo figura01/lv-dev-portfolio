@@ -1,5 +1,8 @@
 import ExperienceForm from "@/components/admin/experience/experience-form";
 import { getExperienceById } from "@/lib/actions/experience.actions";
+
+export const dynamic = "force-dynamic";
+
 const AdminEditExperiencePage = async (props: {
   params: Promise<{ id: string }>;
 }) => {

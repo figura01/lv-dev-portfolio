@@ -2,6 +2,8 @@ import TechnologyForm from "@/components/admin/technology/technology-form";
 import { notFound } from "next/navigation";
 import { getTechnologyById } from "@/lib/actions/technology.actions";
 
+export const dynamic = "force-dynamic";
+
 const CreateTechnologyPage = async (props: {
   params: Promise<{ id: string }>;
 }) => {
