@@ -2,6 +2,7 @@ import { Resend } from "resend";
 import { NextResponse } from "next/server";
 import ContactEmail from "@/components/email/template-mail";
 import dotenv from "dotenv";
+import { Github, Linkedin, Mail, MapPin, Phone } from "lucide-react";
 
 dotenv.config();
 
@@ -10,7 +11,7 @@ export async function POST(req: Request) {
     // Avoid direct usage of the Node `process` identifier which may not be
     // available in this TypeScript configuration. Use globalThis to access
     // runtime environment variables without requiring @types/node.
-    const apiKey = (globalThis as any).process?.env?.RESEND_API_KEY;
+    const apiKey = process.env.RESEND_API_KEY;
 
     if (!apiKey) {
       return NextResponse.json(
@@ -42,7 +43,7 @@ export async function POST(req: Request) {
     });
 
     return NextResponse.json({ success: true });
-  } catch (error) {
+  } catch (error: unknown) {
     console.error(error);
     return NextResponse.json(
       { error: "Erreur lors de l'envoi" },

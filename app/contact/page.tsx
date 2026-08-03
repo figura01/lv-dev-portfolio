@@ -1,27 +1,17 @@
 // app/contact/page.tsx
-/// <reference types="react" />
+
 import * as React from "react";
-import {
-  Send,
-  MapPin,
-  Mail,
-  Phone,
-  Github,
-  Linkedin,
-  Form,
-} from "lucide-react";
+import { Metadata } from "next";
+import { Github, Linkedin, Mail, MapPin, Phone } from "lucide-react";
+
 import { getAllSocialMedia } from "@/lib/actions/social-media.actions";
 import Link from "next/link";
 import FormContact from "@/components/contact/form-contact";
 
-// Temporary JSX intrinsic elements declaration to satisfy TypeScript in this file
-declare global {
-  namespace JSX {
-    interface IntrinsicElements {
-      [elemName: string]: any;
-    }
-  }
-}
+export const metadata: Metadata = {
+  title: "Contact",
+  description: "Contactez-moi pour discuter de votre projet.",
+};
 
 export default async function ContactPage() {
   const { data: socialMedias } = await getAllSocialMedia();
