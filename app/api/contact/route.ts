@@ -5,10 +5,22 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const resend = new Resend(process.env.RESEND_API_KEY);
-
 export async function POST(req: Request) {
   try {
+    // Avoid direct usage of the Node `process` identifier which may not be
+    // available in this TypeScript configuration. Use globalThis to access
+    // runtime environment variables without requiring @types/node.
+    const apiKey = (globalThis as any).process?.env?.RESEND_API_KEY;
+
+    if (!apiKey) {
+      return NextResponse.json(
+        { error: "Configuration Resend manquante" },
+        { status: 500 },
+      );
+    }
+
+    const resend = new Resend(apiKey);
+
     const { name, email, message } = await req.json();
 
     if (!name || !email || !message) {

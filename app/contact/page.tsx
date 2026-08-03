@@ -1,5 +1,6 @@
 // app/contact/page.tsx
-
+/// <reference types="react" />
+import * as React from "react";
 import {
   Send,
   MapPin,
@@ -12,6 +13,15 @@ import {
 import { getAllSocialMedia } from "@/lib/actions/social-media.actions";
 import Link from "next/link";
 import FormContact from "@/components/contact/form-contact";
+
+// Temporary JSX intrinsic elements declaration to satisfy TypeScript in this file
+declare global {
+  namespace JSX {
+    interface IntrinsicElements {
+      [elemName: string]: any;
+    }
+  }
+}
 
 export default async function ContactPage() {
   const { data: socialMedias } = await getAllSocialMedia();
@@ -89,7 +99,7 @@ export default async function ContactPage() {
                         ) : null}
                         <span className="sr-only">{social.name}</span>
                       </Link>
-                    )
+                    ),
                   )}
               </div>
             </div>
