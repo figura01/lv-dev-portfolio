@@ -48,7 +48,7 @@ export default function HomePage() {
                 </Link>
               </Button>
               <Button variant="outline" size="lg" asChild>
-                <Link href="/projects">Voir mes projets</Link>
+                <Link href="/projets">Voir mes projets</Link>
               </Button>
             </div>
           </div>
