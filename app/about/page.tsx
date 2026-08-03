@@ -26,6 +26,9 @@ const skills = [
   { name: "DevOps", level: 70, icon: <GraduationCap className="h-5 w-5" /> },
 ];
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export default async function AboutPage() {
   const { data: exps } = await getAllExperience();
 

@@ -16,6 +16,7 @@ import { Plus, Pencil } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 
 export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 export default async function AdminProjectsPage() {
   const { data: projects } = await getAllProjects();

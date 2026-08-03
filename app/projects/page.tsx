@@ -2,6 +2,9 @@
 import { getAllProjects } from "@/lib/actions/project.actions";
 import ProjectCard from "@/components/project-card";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export default async function ProjetsPage() {
   const { data: projects } = await getAllProjects();
   console.log("projects: ", projects);
