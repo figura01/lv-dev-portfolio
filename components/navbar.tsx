@@ -16,7 +16,7 @@ import { toast } from "sonner";
 const navItems = [
   { name: "Accueil", path: "/" },
   { name: "Projets", path: "/projects" },
-  // { name: "Services", path: "/services" },
+  { name: "Services", path: "/services" },
   { name: "À Propos", path: "/about" },
   { name: "Contact", path: "/contact" },
 ];
@@ -59,7 +59,7 @@ export function Navbar() {
                   "px-4 py-2 text-sm font-medium transition-colors hover:text-primary rounded-md",
                   pathname === item.path
                     ? "text-foreground"
-                    : "text-foreground/60 hover:bg-accent"
+                    : "text-foreground/60 hover:bg-accent",
                 )}
               >
                 {item.name}
@@ -109,7 +109,7 @@ export function Navbar() {
                       },
                       onError: () => {
                         toast.error(
-                          "Échec de la déconnexion. Veuillez réessayer."
+                          "Échec de la déconnexion. Veuillez réessayer.",
                         );
                       },
                     })
@@ -139,7 +139,7 @@ export function Navbar() {
                       "px-4 py-2 text-sm font-medium rounded-md",
                       pathname === item.path
                         ? "bg-accent text-accent-foreground"
-                        : "text-foreground/60 hover:bg-accent"
+                        : "text-foreground/60 hover:bg-accent",
                     )}
                   >
                     {item.name}
@@ -161,7 +161,7 @@ export function Navbar() {
                           },
                           onError: () => {
                             toast.error(
-                              "Échec de la déconnexion. Veuillez réessayer."
+                              "Échec de la déconnexion. Veuillez réessayer.",
                             );
                           },
                         })
