@@ -39,6 +39,12 @@ jobs:
           timeout 15 bash -c 'cat < /dev/null > /dev/tcp/${{ secrets.VPS_HOST }}/22'
           echo "SSH port reachable"
 
+      - name: Show runner IP
+        run: |
+          echo "Runner IP:"
+          curl -s https://api.ipify.org
+          echo
+
       - name: Deploy to VPS
         uses: appleboy/ssh-action@v1.0.3
         with:
