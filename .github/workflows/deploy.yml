@@ -33,6 +33,12 @@ jobs:
         run: |
           docker push ghcr.io/figura01/portfolio:latest
 
+      - name: Test VPS connectivity
+        run: |
+          echo "Testing SSH port..."
+          timeout 15 bash -c 'cat < /dev/null > /dev/tcp/${{ secrets.VPS_HOST }}/22'
+          echo "SSH port reachable"
+
       - name: Deploy to VPS
         uses: appleboy/ssh-action@v1.0.3
         with:
