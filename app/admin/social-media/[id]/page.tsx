@@ -3,7 +3,7 @@ import { getSocialMediaById } from "@/lib/actions/social-media.actions";
 
 export const dynamic = "force-dynamic";
 
-const CreateSocailMediaPage = async (props: {
+const EditSocialMediaPage = async (props: {
   params: Promise<{ id: string }>;
 }) => {
   const { id } = await props.params;
@@ -15,7 +15,7 @@ const CreateSocailMediaPage = async (props: {
 
   return (
     <div className="container mx-auto py-8">
-      <h1 className="text-3xl font-bold mb-8">Nouvelle Technologie</h1>
+      <h1 className="text-3xl font-bold mb-8">Modifier le réseau social</h1>
       <SocialMediaForm
         type="Update"
         socialMedia={socialMedia}
@@ -25,4 +25,4 @@ const CreateSocailMediaPage = async (props: {
   );
 };
 
-export default CreateSocailMediaPage;
+export default EditSocialMediaPage;

@@ -1,6 +1,13 @@
 // app/projets/page.tsx
 import { getAllProjects } from "@/lib/actions/project.actions";
 import ProjectCard from "@/components/project-card";
+import { pageMetadata } from "@/lib/seo";
+
+export const metadata = pageMetadata(
+  "Portfolio : mes projets web et applications",
+  "Explorez mes réalisations de développeur full stack freelance : sites et applications web sur mesure. Découvrez les projets et les technologies utilisées.",
+  "/projects",
+);
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;

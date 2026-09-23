@@ -1,17 +1,18 @@
 // app/admin/layout.tsx
-"use client";
-
-import { useRouter } from "next/navigation";
+import type { Metadata } from "next";
 import { Sidebar } from "@/components/admin/Sidebar";
 import AdminHeader from "@/components/admin/admin-header";
+
+export const metadata: Metadata = {
+  title: "Administration",
+  robots: { index: false, follow: false },
+};
 
 interface AdminLayoutProps {
   children: React.ReactNode;
 }
 
 export default function AdminLayout({ children }: AdminLayoutProps) {
-  const router = useRouter();
-
   return (
     <div className="flex h-screen">
       <Sidebar />

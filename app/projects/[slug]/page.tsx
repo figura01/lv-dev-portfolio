@@ -3,15 +3,31 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { getProjectBySlug } from "@/lib/actions/project.actions";
 import Image from "next/image";
-import ErrorPage from "@/app/error";
+import { notFound } from "next/navigation";
+import { cache } from "react";
+import { pageMetadata } from "@/lib/seo";
+
+const loadProject = cache(getProjectBySlug);
+
+export async function generateMetadata(props: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = await props.params;
+  const { data: project } = await loadProject(slug);
+  if (!project) notFound();
+  return pageMetadata(
+    `${project.title} : projet web`,
+    project.excerpt || project.description.slice(0, 160),
+    `/projects/${encodeURIComponent(project.slug)}`,
+  );
+}
 
 export default async function ProjectDetails(props: {
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await props.params;
-  const { data: project } = await getProjectBySlug(slug);
-  if (!project) return <ErrorPage />;
-  console.log("", project);
+  const { data: project } = await loadProject(slug);
+  if (!project) notFound();
   return (
     <div className="max-w-6xl mx-auto px-4 py-12">
       <article className="w-full space-y-8">

@@ -2,6 +2,22 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Getting Started
 
+## Configuration SEO
+
+Le domaine public par défaut est `https://laurent-vuillaume.ovh`.
+Pour le changer, définissez `NEXT_PUBLIC_SITE_URL` dans `.env` et dans
+l’environnement de déploiement avec l’origine publique (HTTPS, sans chemin).
+Relancez le build après toute modification de cette valeur.
+
+Les cinq pages publiques principales possèdent des titres, descriptions et métadonnées
+Open Graph/Twitter dédiés dans `lib/seo.ts` et leurs fichiers `page.tsx`.
+`/sitemap.xml` et `/robots.txt` sont générés automatiquement et référencent
+les cinq pages publiques principales. Après déploiement, soumettez `/sitemap.xml` dans
+Google Search Console. Les pages de connexion et d’administration utilisent
+`noindex` ; cette directive ne remplace pas le contrôle d’accès.
+
+## Développement local
+
 First, run the development server:
 
 ```bash

@@ -2,6 +2,13 @@ import Link from "next/link";
 import { ArrowRight, Code, Cpu, Smartphone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import PreviewFeaturedProjects from "@/components/preview-featured-project";
+import { defaultDescription, pageMetadata } from "@/lib/seo";
+
+export const metadata = pageMetadata(
+  "Développeur web full stack freelance",
+  defaultDescription,
+  "/",
+);
 
 export default function HomePage() {
   const services = [
@@ -33,8 +40,8 @@ export default function HomePage() {
               Développeur Full Stack Freelance
             </div>
             <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-6">
-              Je crée des expériences numériques{" "}
-              <span className="text-primary">exceptionnelles</span>
+              Développeur web full stack{" "}
+              <span className="text-primary">freelance</span>
             </h1>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-10">
               Je conçois et développe des applications web et mobiles
@@ -84,7 +91,7 @@ export default function HomePage() {
                   href="/services"
                   className="inline-flex items-center text-sm font-medium text-primary hover:underline"
                 >
-                  En savoir plus
+                  Découvrir mes services
                   <ArrowRight className="ml-1 h-4 w-4" />
                 </Link>
               </div>

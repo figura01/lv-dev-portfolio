@@ -1,17 +1,17 @@
 // app/contact/page.tsx
 
-import * as React from "react";
-import { Metadata } from "next";
 import { Github, Linkedin, Mail, MapPin, Phone } from "lucide-react";
-
 import { getAllSocialMedia } from "@/lib/actions/social-media.actions";
 import Link from "next/link";
 import FormContact from "@/components/contact/form-contact";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Contact",
-  description: "Contactez-moi pour discuter de votre projet.",
-};
+export const metadata = pageMetadata(
+  "Contact : discutons de votre projet web",
+  "Vous avez un projet de site ou d’application web ? Contactez LVDEV, développeur full stack freelance, pour échanger sur vos besoins et une solution sur mesure.",
+  "/contact",
+);
+
 
 export const dynamic = "force-dynamic";
 

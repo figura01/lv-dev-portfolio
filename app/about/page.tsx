@@ -2,6 +2,13 @@
 import { Briefcase, Code, GraduationCap, Rocket } from "lucide-react";
 import ItemExperience from "@/components/experience/ItemExperience";
 import { getAllExperience } from "@/lib/actions/experience.actions";
+import { pageMetadata } from "@/lib/seo";
+
+export const metadata = pageMetadata(
+  "Parcours et compétences de développeur freelance",
+  "Découvrez mon parcours de développeur full stack freelance, mes expériences et mes compétences en JavaScript, TypeScript, React et Next.js pour vos projets web.",
+  "/about",
+);
 // const experiences = [
 //   {
 //     year: "2020 - Présent",

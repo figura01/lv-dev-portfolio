@@ -5,12 +5,6 @@ const nextConfig: NextConfig = {
       bodySizeLimit: "2mb",
     },
   },
-  // Désactive le Edge Runtime pour les routes API
-  api: {
-    bodyParser: {
-      sizeLimit: "1mb",
-    },
-  },
   images: {
     remotePatterns: [
       {
