@@ -23,6 +23,9 @@ export const metadata: Metadata = {
   title: { default: defaultTitle, template: `%s | ${siteName}` },
   description: defaultDescription,
   applicationName: siteName,
+  verification: {
+    google: "dNjZHuSPVJgUnuuf0kWADgW4s8Uo8TXhfvhkDow78qg",
+  },
 };
 
 export default function RootLayout({
