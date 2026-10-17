@@ -53,6 +53,7 @@ jobs:
           key: ${{ secrets.VPS_SSH_KEY }}
 
           script: |
+            set -eu
             cd /srv/vps-infra
             docker compose pull
             docker compose up -d
