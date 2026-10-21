@@ -1,10 +1,13 @@
 "use server";
 import { prisma } from "@/lib/prisma";
 import { z } from "zod";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
+import { CACHE_TAGS } from "@/lib/data/public";
+import { requireAdmin } from "@/lib/auth/session";
 import { createProjectSchema } from "@/lib/validators";
 
 export async function getAllProjects() {
+  await requireAdmin();
   try {
     const projects = await prisma.project.findMany({
       orderBy: {
@@ -35,6 +38,7 @@ export async function getAllProjects() {
 }
 
 export async function getOneProjectById(id: string) {
+  await requireAdmin();
   try {
     const project = await prisma.project.findFirst({
       where: { id },
@@ -65,6 +69,7 @@ export async function getOneProjectById(id: string) {
 }
 
 export async function deleteProject(id: string) {
+  await requireAdmin();
   try {
     const existedProject = await prisma.project.findFirst({ where: { id } });
 
@@ -74,6 +79,7 @@ export async function deleteProject(id: string) {
 
     await prisma.project.delete({ where: { id } });
     revalidatePath("/admin/projects");
+    revalidateTag(CACHE_TAGS.projects);
 
     return {
       success: true,
@@ -87,39 +93,8 @@ export async function deleteProject(id: string) {
   }
 }
 
-export async function getFeaturedProjects() {
-  try {
-    const projects = await prisma.project.findMany({
-      where: { isFeatured: true, published: true },
-      orderBy: {
-        createdAt: "asc",
-      },
-      include: {
-        technologies: {
-          select: {
-            id: true,
-            name: true,
-          },
-        },
-      },
-      take: 2,
-    });
-    if (!projects) throw new Error("Pas de projets trouvés");
-
-    return {
-      success: true,
-      data: projects,
-      message: "Liste des projets chargée",
-    };
-  } catch (error) {
-    return {
-      success: false,
-      message: `${error}`,
-    };
-  }
-}
-
 export async function createProject(data: z.infer<typeof createProjectSchema>) {
+  await requireAdmin();
   try {
     const project = await prisma.project.create({
       data: {
@@ -133,6 +108,7 @@ export async function createProject(data: z.infer<typeof createProjectSchema>) {
       throw new Error("Le projet n'a pas pu être créé");
     }
     revalidatePath("/admin/projects");
+    revalidateTag(CACHE_TAGS.projects);
     return {
       success: true,
       data: project,
@@ -151,6 +127,7 @@ export async function updateProject(
   project: z.infer<typeof createProjectSchema>,
   projectId: string
 ) {
+  await requireAdmin();
   try {
     const updatedProject = prisma.project.findFirst({
       where: { id: projectId },
@@ -169,6 +146,8 @@ export async function updateProject(
     });
 
     revalidatePath("/admin/projects");
+
+    revalidateTag(CACHE_TAGS.projects);
     return {
       success: true,
       data: updatedProject,
@@ -184,30 +163,3 @@ export async function updateProject(
   }
 }
 
-export async function getProjectBySlug(slug: string) {
-  try {
-    const project = await prisma.project.findFirst({
-      where: { slug },
-      include: {
-        technologies: {
-          select: {
-            id: true,
-            name: true,
-          },
-        },
-      },
-    });
-    if (!project) throw new Error("Aucun projet trouvé avec ce slug");
-    return {
-      success: true,
-      data: project,
-      message: "Chargement du projet réussi !",
-    };
-  } catch (error) {
-    console.error(error);
-    return {
-      success: false,
-      message: `Error, ${error}`,
-    };
-  }
-}

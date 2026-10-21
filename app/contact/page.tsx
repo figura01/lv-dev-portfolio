@@ -1,14 +1,15 @@
 // app/contact/page.tsx
 
-import { Github, Linkedin, Mail, MapPin, Phone } from "lucide-react";
-import { getAllSocialMedia } from "@/lib/actions/social-media.actions";
+import { Download, Github, Linkedin, Mail, MapPin, Phone } from "lucide-react";
+import { getPublicSocialMedia } from "@/lib/data/public";
+import { CV_URL, hasCv } from "@/lib/profile";
 import Link from "next/link";
 import FormContact from "@/components/contact/form-contact";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata(
-  "Contact : discutons de votre projet web",
-  "Vous avez un projet de site ou d’application web ? Contactez LVDEV, développeur full stack freelance, pour échanger sur vos besoins et une solution sur mesure.",
+  "Contact : échangeons sur votre poste",
+  "Vous recrutez un développeur full stack ? Contactez Laurent Vuillaume, en recherche de CDI à Paris ou en remote.",
   "/contact",
 );
 
@@ -16,15 +17,18 @@ export const metadata = pageMetadata(
 export const dynamic = "force-dynamic";
 
 export default async function ContactPage() {
-  const { data: socialMedias } = await getAllSocialMedia();
+  const socialMedias = await getPublicSocialMedia();
+  const cvAvailable = hasCv();
 
   return (
-    <div className="container mx-auto px-4 py-12">
-      <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-16">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">Contactez-moi</h1>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Une question ou un projet ? N&apos;hésitez pas à me contacter
+    <div className="mx-auto max-w-6xl px-4 pb-20 pt-10 md:px-6 md:pt-16">
+      <div>
+        <div className="mb-14 flex flex-col gap-3">
+          <h1 className="font-display text-5xl font-extrabold tracking-tight md:text-6xl">
+            Contact
+          </h1>
+          <p className="max-w-2xl text-lg text-muted-foreground md:text-xl">
+            Une offre, une question ? Écrivez-moi, je réponds rapidement.
           </p>
         </div>
 
@@ -73,23 +77,35 @@ export default async function ContactPage() {
             </div>
 
             <div className="mt-12">
-              <h2 className="text-2xl font-semibold mb-6">Réseaux Sociaux</h2>
-              <div className="flex gap-4">
-                {socialMedias &&
-                  socialMedias.map(
+              <h2 className="mb-6 font-display text-2xl font-bold">
+                Me retrouver
+              </h2>
+              <div className="flex flex-wrap gap-3">
+                {cvAvailable && (
+                  <a
+                    href={CV_URL}
+                    download
+                    className="inline-flex h-12 items-center gap-2 rounded-2xl bg-foreground px-5 font-semibold text-background transition-opacity hover:opacity-90"
+                  >
+                    <Download className="h-4 w-4" />
+                    Télécharger le CV
+                  </a>
+                )}
+                {socialMedias.map(
                     (social: { id: string; name: string; linkUrl: string }) => (
                       <Link
                         key={social.name}
                         href={social.linkUrl}
                         target="_blank"
-                        className="h-10 w-10 rounded-full border flex items-center justify-center hover:bg-primary/10 hover:border-primary/50 transition-colors"
+                        rel="noopener noreferrer"
+                        className="inline-flex h-12 items-center gap-2 rounded-2xl border bg-card px-5 font-semibold transition-colors hover:bg-accent"
                       >
-                        {social.name === "Github" ? (
-                          <Github />
-                        ) : social.name === "Linkedin" ? (
-                          <Linkedin />
+                        {/github/i.test(social.name) ? (
+                          <Github className="h-4 w-4" />
+                        ) : /linkedin/i.test(social.name) ? (
+                          <Linkedin className="h-4 w-4" />
                         ) : null}
-                        <span className="sr-only">{social.name}</span>
+                        {social.name}
                       </Link>
                     ),
                   )}
@@ -97,8 +113,8 @@ export default async function ContactPage() {
             </div>
           </div>
 
-          <div className="bg-card p-8 rounded-xl border shadow-sm">
-            <h2 className="text-2xl font-semibold mb-6">
+          <div className="rounded-3xl border bg-card p-8">
+            <h2 className="mb-6 font-display text-2xl font-bold">
               Envoyez-moi un message
             </h2>
             <FormContact />

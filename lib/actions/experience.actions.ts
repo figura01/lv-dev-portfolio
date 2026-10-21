@@ -6,11 +6,14 @@ import {
 } from "@/lib/validators";
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
+import { CACHE_TAGS } from "@/lib/data/public";
+import { requireAdmin } from "@/lib/auth/session";
 
 export async function createExperience(
   data: z.infer<typeof createExperienceSchema>
 ) {
+  await requireAdmin();
   console.log("data:", data);
   try {
     const experience = await prisma.experience.create({
@@ -22,6 +25,7 @@ export async function createExperience(
     });
     if (!experience) throw new Error("L'experience n'a pas été créer");
     revalidatePath("/admin/experiences");
+    revalidateTag(CACHE_TAGS.experiences);
     return {
       success: true,
       data: experience,
@@ -37,13 +41,13 @@ export async function createExperience(
 }
 
 export async function getAllExperience() {
+  await requireAdmin();
   try {
     const experiences = await prisma.experience.findMany({
       orderBy: {
         createdAt: "asc",
       },
     });
-    console.log("experiences: ", experiences);
     if (!experiences) throw new Error("Aucune expérience trouvé");
 
     return {
@@ -64,6 +68,7 @@ export async function updateExperience(
   data: z.infer<typeof updateExperienceSchema>,
   id: string
 ) {
+  await requireAdmin();
   try {
     const existingExperience = await prisma.experience.findUnique({
       where: {
@@ -82,6 +87,7 @@ export async function updateExperience(
       },
     });
     revalidatePath("/admin/experiences");
+    revalidateTag(CACHE_TAGS.experiences);
     return {
       success: true,
       data: existingExperience,
@@ -96,6 +102,7 @@ export async function updateExperience(
 }
 
 export async function getExperienceById(id: string) {
+  await requireAdmin();
   try {
     const experience = await prisma.experience.findFirst({
       where: {
@@ -120,6 +127,7 @@ export async function getExperienceById(id: string) {
 }
 
 export async function deleteExperience(id: string) {
+  await requireAdmin();
   try {
     const existedExoerience = await prisma.experience.findFirst({
       where: { id },
@@ -132,6 +140,7 @@ export async function deleteExperience(id: string) {
       },
     });
     revalidatePath("/admin/experiences");
+    revalidateTag(CACHE_TAGS.experiences);
     return {
       success: true,
       data: existedExoerience,

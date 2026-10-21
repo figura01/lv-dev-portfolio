@@ -6,9 +6,9 @@ export const siteUrl = new URL(
   configuredUrl || "https://laurent-vuillaume.ovh",
 ).origin;
 export const siteName = "LVDEV";
-export const defaultTitle = "Développeur web full stack freelance | LVDEV";
+export const defaultTitle = "Laurent Vuillaume — Développeur web full stack | LVDEV";
 export const defaultDescription =
-  "Développeur full stack freelance, je crée vos sites et applications web sur mesure avec React et Next.js. Découvrez mes réalisations et parlons de votre projet.";
+  "Portfolio de Laurent Vuillaume, développeur full stack TypeScript (React, Next.js, NestJS, PostgreSQL), en recherche de CDI à Paris ou en remote.";
 
 export function pageMetadata(
   title: string,

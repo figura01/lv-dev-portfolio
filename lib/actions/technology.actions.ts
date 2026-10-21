@@ -6,10 +6,13 @@ import {
   createTechnologySchema,
   updateTechnologySchema,
 } from "@/lib/validators";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
+import { CACHE_TAGS } from "@/lib/data/public";
+import { requireAdmin } from "@/lib/auth/session";
 import { z } from "zod";
 
 export async function getAllTechnology() {
+  await requireAdmin();
   try {
     const technologies = await prisma.technology.findMany({
       orderBy: {
@@ -43,6 +46,7 @@ export async function getAllTechnology() {
 export async function updateTechnology(
   data: z.infer<typeof updateTechnologySchema>
 ) {
+  await requireAdmin();
   try {
     const technology = updateTechnologySchema.parse(data);
     const technologyExisted = await prisma.technology.findFirst({
@@ -56,6 +60,7 @@ export async function updateTechnology(
       data: technology,
     });
     revalidatePath("/admin/technologies");
+    revalidateTag(CACHE_TAGS.projects);
     return { success: true, message: "Technologie mise à jour" };
   } catch (error) {
     console.error(error);
@@ -69,6 +74,7 @@ export async function updateTechnology(
 export async function createTechnology(
   data: z.infer<typeof createTechnologySchema>
 ) {
+  await requireAdmin();
   console.log(data);
   const validTech = createTechnologySchema.parse(data);
   if (validTech) {
@@ -80,6 +86,7 @@ export async function createTechnology(
       });
       if (!tech) throw new Error("Fail to create a new Tech");
       revalidatePath("/admin/technologies");
+      revalidateTag(CACHE_TAGS.projects);
 
       return {
         success: true,
@@ -97,6 +104,7 @@ export async function createTechnology(
 }
 
 export async function deleteTechnology(id: string) {
+  await requireAdmin();
   try {
     const existedTech = await prisma.technology.findFirst({
       where: { id },
@@ -106,6 +114,7 @@ export async function deleteTechnology(id: string) {
       where: { id },
     });
     revalidatePath("/admin/technologies");
+    revalidateTag(CACHE_TAGS.projects);
     return {
       success: true,
       message: `Successfully deleted technology ID: ${existedTech.id}, Name:${existedTech.name}}`,
@@ -121,32 +130,8 @@ export async function deleteTechnology(id: string) {
   }
 }
 
-export async function getTechnologyByName(name: string) {
-  console.log("techno name:", name);
-  try {
-    const existedTech = await prisma.technology.findFirst({
-      where: {
-        name: {
-          equals: name,
-        },
-      },
-    });
-    if (!existedTech) throw new Error("Technology not found");
-    console.log("existed tech: ", existedTech);
-    return {
-      success: true,
-      message: "Find successfully technology",
-      data: existedTech,
-    };
-  } catch (error) {
-    return {
-      success: false,
-      message: `Error, ${error}`,
-    };
-  }
-}
-
 export async function getTechnologyById(id: string) {
+  await requireAdmin();
   const technology = await prisma.technology.findFirst({
     where: { id },
   });

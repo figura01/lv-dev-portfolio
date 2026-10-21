@@ -1,26 +1,21 @@
+import Link from "next/link";
+
 export const Footer = () => {
   return (
-    <footer className="flex h-16 border-t">
-      <div className="container mx-auto px-4 py-8">
-        <div className="flex flex-col md:flex-row justify-center items-center">
-          <p className="text-sm text-muted-foreground">
-            © LVDEV. Tous droits réservés.
-          </p>
-          {/* <div className="flex space-x-6 mt-4 md:mt-0">
-            <a
-              href="/mentions-legales"
-              className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-            >
-              Mentions Légales
-            </a>
-            <a
-              href="/politique-de-confidentialite"
-              className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-            >
-              Politique de confidentialité
-            </a>
-          </div> */}
-        </div>
+    <footer className="mx-auto w-full max-w-6xl px-4 pb-10 pt-4 md:px-6">
+      <div className="flex flex-col items-center justify-between gap-4 border-t pt-8 text-sm text-muted-foreground md:flex-row">
+        <p>© {new Date().getFullYear()} Laurent Vuillaume · LVDEV</p>
+        <nav aria-label="Liens du pied de page" className="flex gap-6">
+          <Link href="/projects" className="hover:text-foreground">
+            Projets
+          </Link>
+          <Link href="/about" className="hover:text-foreground">
+            À propos
+          </Link>
+          <Link href="/contact" className="hover:text-foreground">
+            Contact
+          </Link>
+        </nav>
       </div>
     </footer>
   );

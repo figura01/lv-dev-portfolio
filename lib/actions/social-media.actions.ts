@@ -1,13 +1,16 @@
 "use server";
 import { prisma } from "@/lib/prisma";
 import { z } from "zod";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
+import { CACHE_TAGS } from "@/lib/data/public";
+import { requireAdmin } from "@/lib/auth/session";
 import {
   createSocialMediaSchema,
   updateSocialMediaSchema,
 } from "../validators";
 
 export async function getAllSocialMedia() {
+  await requireAdmin();
   try {
     const data = await prisma.socialMedia.findMany({
       orderBy: {
@@ -33,6 +36,7 @@ export async function getAllSocialMedia() {
 export async function createSocialMedia(
   data: z.infer<typeof createSocialMediaSchema>
 ) {
+  await requireAdmin();
   console.log("data: ", data);
   try {
     const isValid = createSocialMediaSchema.parse(data);
@@ -45,6 +49,7 @@ export async function createSocialMedia(
       });
       if (!socialMedia) throw new Error("Error when created new socialMedia");
       revalidatePath("/admin/social-media");
+      revalidateTag(CACHE_TAGS.socialMedia);
       console.log("socialMedia: ", socialMedia);
       return {
         success: true,
@@ -61,12 +66,15 @@ export async function createSocialMedia(
 }
 
 export async function deleteSocialMedia(id: string) {
+  await requireAdmin();
   try {
     await prisma.socialMedia.delete({
       where: { id },
     });
 
     revalidatePath("/admin/social-media");
+
+    revalidateTag(CACHE_TAGS.socialMedia);
     return {
       success: true,
       message: `Social media sucessfully deleted, id: ${id}`,
@@ -86,6 +94,7 @@ export async function updateSocialMedia({
   id: string;
   data: z.infer<typeof updateSocialMediaSchema>;
 }) {
+  await requireAdmin();
   try {
     const sm = updateSocialMediaSchema.parse(data);
     if (!sm) throw new Error("Error, invalid data to update social media");
@@ -102,6 +111,8 @@ export async function updateSocialMedia({
 
     revalidatePath("/admin/social-media");
 
+    revalidateTag(CACHE_TAGS.socialMedia);
+
     return {
       success: true,
       message: `Social media successfully updated, id: ${id}`,
@@ -115,6 +126,7 @@ export async function updateSocialMedia({
 }
 
 export async function getSocialMediaById(id: string) {
+  await requireAdmin();
   try {
     const socialMedia = await prisma.socialMedia.findFirst({
       where: { id },

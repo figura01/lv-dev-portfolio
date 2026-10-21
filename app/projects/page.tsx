@@ -1,33 +1,35 @@
 // app/projets/page.tsx
-import { getAllProjects } from "@/lib/actions/project.actions";
+import { getPublicProjects } from "@/lib/data/public";
 import ProjectCard from "@/components/project-card";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata(
   "Portfolio : mes projets web et applications",
-  "Explorez mes réalisations de développeur full stack freelance : sites et applications web sur mesure. Découvrez les projets et les technologies utilisées.",
+  "Les projets de Laurent Vuillaume, développeur full stack : applications web conçues de bout en bout, du besoin à la mise en ligne, et les technologies utilisées.",
   "/projects",
 );
 
+// Rendu à la demande ; les données viennent du cache (lib/data/public.ts).
 export const dynamic = "force-dynamic";
-export const revalidate = 0;
 
 export default async function ProjetsPage() {
-  const { data: projects } = await getAllProjects();
-  console.log("projects: ", projects);
+  const projects = await getPublicProjects();
 
   return (
-    <div className="container mx-auto px-4 py-12">
-      <div className="text-center mb-16">
-        <h1 className="text-4xl md:text-5xl font-bold mb-4">Mes Projets</h1>
-        <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-          Découvrez mes réalisations et projets récents
+    <div className="mx-auto max-w-6xl px-4 py-12 md:px-6 md:py-16">
+      <div className="mb-14 flex flex-col gap-3">
+        <h1 className="font-display text-5xl font-extrabold tracking-tight md:text-6xl">
+          Projets
+        </h1>
+        <p className="max-w-2xl text-lg text-muted-foreground md:text-xl">
+          Des applications web conçues de bout en bout, du besoin à la mise en
+          ligne.
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {projects?.map((project) => (
-          <ProjectCard key={project.id} project={project} />
+      <div className="grid gap-6 md:grid-cols-2">
+        {projects.map((project, index) => (
+          <ProjectCard key={project.id} project={project} index={index} />
         ))}
       </div>
     </div>
