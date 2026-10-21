@@ -19,6 +19,12 @@ export const CACHE_TAGS = {
 
 const ONE_HOUR = 60 * 60;
 
+// Du projet le plus récent au plus ancien, selon la date affichée sur les cards.
+const newestFirst = [
+  { publishedAt: "desc" as const },
+  { createdAt: "desc" as const },
+];
+
 const projectInclude = {
   technologies: { select: { id: true, name: true } },
 } as const;
@@ -27,21 +33,21 @@ const cachedFeaturedProjects = unstable_cache(
   () =>
     prisma.project.findMany({
       where: { isFeatured: true, published: true },
-      orderBy: { createdAt: "asc" },
+      orderBy: newestFirst,
       include: projectInclude,
       take: 2,
     }),
-  ["featured-projects"],
+  ["featured-projects-newest-first"],
   { tags: [CACHE_TAGS.projects], revalidate: ONE_HOUR },
 );
 
 const cachedAllProjects = unstable_cache(
   () =>
     prisma.project.findMany({
-      orderBy: { createdAt: "asc" },
+      orderBy: newestFirst,
       include: projectInclude,
     }),
-  ["all-projects"],
+  ["all-projects-newest-first"],
   { tags: [CACHE_TAGS.projects], revalidate: ONE_HOUR },
 );
 
