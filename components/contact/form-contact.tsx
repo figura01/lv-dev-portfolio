@@ -19,42 +19,72 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { useTransition } from "react";
+import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 
 const FormContact = () => {
   const router = useRouter();
-  const [isPending, startTransition] = useTransition();
+  const [isPending, setIsPending] = useState(false);
+  // Anti-robot : heure d'affichage du formulaire et champ piège invisible.
+  const startedAt = useRef(Date.now());
+  const [website, setWebsite] = useState("");
   const form = useForm({
     resolver: zodResolver(formContactSchema),
     defaultValues: formContactValues,
   });
 
   const onSubmit = async (values: z.infer<typeof formContactSchema>) => {
-    console.log("Formulaire soumis:", values);
+    setIsPending(true);
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: values.name,
+          email: values.email,
+          subject: values.subject,
+          message: values.message,
+          website,
+          startedAt: startedAt.current,
+        }),
+      });
 
-    const res = await fetch("/api/contact", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        name: values.name,
-        email: values.email,
-        message: values.message,
-      }),
-    });
-    console.log(res);
-    if (!res) {
-      toast.error("Une erreur est survenue lors de l'envoi du message.");
-      return;
+      if (!res.ok) {
+        const data = await res.json().catch(() => null);
+        toast.error(
+          data?.error ??
+            "Une erreur est survenue lors de l'envoi du message.",
+        );
+        return;
+      }
+
+      form.reset();
+      toast.success("Message envoyé avec succès !");
+      router.push("/");
+    } catch {
+      toast.error("Impossible de joindre le serveur. Réessayez plus tard.");
+    } finally {
+      setIsPending(false);
     }
-    form.reset();
-    toast.success("Message envoyé avec succès !");
-    router.push("/");
   };
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+        {/* Champ piège : invisible pour les humains, rempli par les robots. */}
+        <div aria-hidden="true" className="absolute -left-[9999px] h-0 w-0 overflow-hidden">
+          <label htmlFor="website">Ne pas remplir ce champ</label>
+          <input
+            id="website"
+            name="website"
+            type="text"
+            tabIndex={-1}
+            autoComplete="off"
+            value={website}
+            onChange={(e) => setWebsite(e.target.value)}
+          />
+        </div>
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="space-y-2">
             <FormField
@@ -153,7 +183,7 @@ const FormContact = () => {
           ) : (
             <>
               <Send className="mr-2 h-4 w-4" />
-              {isPending ? "Envoie du message..." : "Envoyer le message"}
+              Envoyer le message
             </>
           )}
         </Button>
