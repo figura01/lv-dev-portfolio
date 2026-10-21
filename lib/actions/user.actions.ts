@@ -1,4 +1,6 @@
-"use server";
+// Module serveur uniquement : PAS de "use server" ici.
+// Ces fonctions renvoient des hash de mots de passe et ne doivent jamais être
+// exposées comme server actions appelables depuis le navigateur.
 
 import { prisma } from "@/lib/prisma";
 

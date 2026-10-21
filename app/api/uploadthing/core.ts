@@ -1,10 +1,16 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { NextRequest } from "next/server";
+import { AUTH_COOKIES } from "@/lib/auth/config";
+import { getAdminFromTokens } from "@/lib/auth/tokens";
 import { createUploadthing, type FileRouter } from "uploadthing/next";
 import { UploadThingError } from "uploadthing/server";
 const f = createUploadthing();
 
-const auth = (req: NextRequest) => ({ id: "fakeId" }); // Fake auth function
+// Seul un administrateur connecté peut envoyer des fichiers.
+const auth = (req: NextRequest) =>
+  getAdminFromTokens(
+    req.cookies.get(AUTH_COOKIES.access)?.value,
+    req.cookies.get(AUTH_COOKIES.refresh)?.value,
+  );
 export const ourFileRouter = {
   imageUploader: f({
     image: {
@@ -21,10 +27,8 @@ export const ourFileRouter = {
       if (!user) throw new UploadThingError("Unauthorized");
       return { userId: user.id };
     })
-    .onUploadComplete(async ({ metadata, file }) => {
+    .onUploadComplete(async ({ metadata }) => {
       // This code RUNS ON YOUR SERVER after upload
-      console.log("Upload complete for userId:", metadata.userId);
-      console.log("file url", file.ufsUrl);
       // !!! Whatever is returned here is sent to the clientside `onClientUploadComplete` callback
       return { uploadedBy: metadata.userId };
     }),
